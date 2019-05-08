@@ -81,7 +81,7 @@ class UploadFragment : Fragment() {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
                 viewModel.selectedVideoUri = data!!.data
 
-                Toast.makeText(context, viewModel.selectedVideoUri.toString(), Toast.LENGTH_LONG).show()
+                (activity as MainActivity).showOptionsFragment()
             }
         }
     }

@@ -11,9 +11,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        showUloadFragment()
+    }
+
+    fun showUloadFragment() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.mainFragmentContainer, UploadFragment())
+            .commit()
+    }
+
+    fun showOptionsFragment() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mainFragmentContainer, ActionFragment())
             .commit()
     }
 
