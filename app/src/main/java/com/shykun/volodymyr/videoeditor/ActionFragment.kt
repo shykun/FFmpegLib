@@ -12,17 +12,18 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.fragment_action.*
 
+const val ACTION_FRAGMENT_KEY = "action_fragment_key"
 
 class ActionFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var updateHandler: Handler
     private var tmp: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(activity!!)
+        mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
     }
 
@@ -38,13 +39,13 @@ class ActionFragment : Fragment() {
     }
 
     private fun setupVideo() {
-        videoView.setVideoURI(viewModel.selectedVideoUri)
+        videoView.setVideoURI(mainViewModel.selectedVideoUri)
         setPlayPauseButtonListener()
         videoView.setOnPreparedListener { mp ->
             seekBar.max = videoView.duration
             val minutes = videoView.duration / 60000
             val seconds = (videoView.duration % 60000) / 1000
-            duration.text = "$minutes : $seconds"
+            endTime.text = "$minutes : $seconds"
             mp.isLooping = true
         }
 
@@ -67,9 +68,9 @@ class ActionFragment : Fragment() {
             override fun run() {
                 if (videoView.isPlaying)
                     seekBar.progress = videoView.currentPosition
-                    val minute = videoView.currentPosition / 60000
-                    val second = (videoView.currentPosition % 60000) / 1000
-                    currentTime.text = "$minute : $second"
+                val minute = videoView.currentPosition / 60000
+                val second = (videoView.currentPosition % 60000) / 1000
+                startTime.text = "$minute : $second"
                 updateHandler.postDelayed(this, 16)
             }
         }
@@ -85,22 +86,12 @@ class ActionFragment : Fragment() {
     }
 
     private fun setPlayPauseButtonListener() {
-        playStopButton.setOnClickListener {
+        videoView.setOnClickListener {
             if (videoView.isPlaying)
-                pauseVideo()
+                videoView.pause()
             else
-                playVideo()
+                videoView.start()
         }
-    }
-
-    private fun playVideo() {
-        videoView.start()
-        playStopButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause_white_24dp, 0, 0, 0)
-    }
-
-    private fun pauseVideo() {
-        videoView.pause()
-        playStopButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_play_arrow_white_24dp, 0, 0, 0)
     }
 
 }

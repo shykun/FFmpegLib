@@ -18,7 +18,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_upload.*
 
 private const val REQUEST_TAKE_GALLERY_VIDEO = 100
-
+const val UPLOAD_FRAGMENT_KEY = "upload_fragment_key"
 class UploadFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel

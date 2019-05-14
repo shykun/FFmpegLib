@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <VideoView
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/cutVideoView"
+            android:layout_width="match_parent"/>
+
+    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            android:id="@+id/rangeSeekbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <RelativeLayout
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/canceButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="100dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:src="@drawable/ic_close"/>
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/confirmButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_toEndOf="@id/canceButton"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:src="@drawable/ic_done"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -10,25 +10,22 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/seekBar"
             android:layout_height="0dp"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintDimensionRatio="W, 16:9"
             android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_width="match_parent"/>
 
     <SeekBar
             app:layout_constraintTop_toBottomOf="@id/videoView"
-            app:layout_constraintBottom_toTopOf="@id/playStopButton"
+            app:layout_constraintBottom_toTopOf="@id/actionsList"
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             app:layout_constraintHorizontal_weight="1"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/currentTime"
-            app:layout_constraintRight_toLeftOf="@id/duration"/>
+            app:layout_constraintLeft_toRightOf="@id/startTime"
+            app:layout_constraintRight_toLeftOf="@id/endTime"/>
 
-    <TextView android:id="@+id/currentTime"
+    <TextView android:id="@+id/startTime"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               tool:text="0:01"
@@ -38,7 +35,7 @@
               android:layout_marginStart="16dp"/>
 
     <TextView
-            android:id="@+id/duration"
+            android:id="@+id/endTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tool:text="1:23"
@@ -47,22 +44,12 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginEnd="16dp"/>
 
-    <Button
-            android:drawableStart="@drawable/ic_play_arrow_white_24dp"
-            app:layout_constraintTop_toBottomOf="@id/seekBar"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/actionsList"
-            android:id="@+id/playStopButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"/>
 
     <android.support.v7.widget.RecyclerView
-            app:layout_constraintTop_toBottomOf="@id/playStopButton"
+            app:layout_constraintTop_toBottomOf="@id/seekBar"
             android:id="@+id/actionsList"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            android:layout_height="300dp"/>
 
 </android.support.constraint.ConstraintLayout>
