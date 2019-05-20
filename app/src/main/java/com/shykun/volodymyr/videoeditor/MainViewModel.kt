@@ -1,9 +1,10 @@
 package com.shykun.volodymyr.videoeditor
 
-import android.arch.lifecycle.ViewModel
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
 
-    lateinit var selectedVideoUri: Uri
+    var selectedVideoUri = MutableLiveData<Uri>()
 }

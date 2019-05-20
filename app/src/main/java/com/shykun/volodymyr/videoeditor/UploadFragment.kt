@@ -3,23 +3,28 @@ package com.shykun.volodymyr.videoeditor
 
 import android.Manifest
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_upload.*
+import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 private const val REQUEST_TAKE_GALLERY_VIDEO = 100
 const val UPLOAD_FRAGMENT_KEY = "upload_fragment_key"
+
 class UploadFragment : Fragment() {
+
+    @Inject
+    lateinit var router: Router
 
     private lateinit var viewModel: MainViewModel
 
@@ -28,6 +33,8 @@ class UploadFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
+
+        (activity as MainActivity).component?.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -79,9 +86,9 @@ class UploadFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
-                viewModel.selectedVideoUri = data!!.data
+                viewModel.selectedVideoUri.value =  data!!.data
 
-                (activity as MainActivity).showOptionsFragment()
+                router.navigateTo(ActionScreen)
             }
         }
     }

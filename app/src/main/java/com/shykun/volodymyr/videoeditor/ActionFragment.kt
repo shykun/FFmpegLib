@@ -1,30 +1,40 @@
 package com.shykun.volodymyr.videoeditor
 
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_action.*
+import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 const val ACTION_FRAGMENT_KEY = "action_fragment_key"
 
 class ActionFragment : Fragment() {
 
+    @Inject
+    lateinit var router: Router
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var actionAdapter: ActionAdapter
+
     private lateinit var updateHandler: Handler
-    private var tmp: Int = 0
+    private lateinit var updateRunnable: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        (activity as MainActivity).component?.inject(this)
+
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
+        actionAdapter = ActionAdapter()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,17 +46,29 @@ class ActionFragment : Fragment() {
 
         setupVideo()
         setupActions()
+        setupActionClickListener()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        updateHandler.removeCallbacks(updateRunnable)
     }
 
     private fun setupVideo() {
-        videoView.setVideoURI(mainViewModel.selectedVideoUri)
-        setPlayPauseButtonListener()
-        videoView.setOnPreparedListener { mp ->
+        videoView.setVideoURI(mainViewModel.selectedVideoUri.value)
+        setupPlayPauseListener()
+        videoView.setOnPreparedListener {
             seekBar.max = videoView.duration
             val minutes = videoView.duration / 60000
             val seconds = (videoView.duration % 60000) / 1000
             endTime.text = "$minutes : $seconds"
-            mp.isLooping = true
+
+            it.setOnSeekCompleteListener {
+                    if (!videoView.isPlaying)
+                    videoView.start()
+            }
+
         }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -57,14 +79,13 @@ class ActionFragment : Fragment() {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    tmp = progress
                     videoView.seekTo(progress)
                 }
             }
         })
 
         updateHandler = Handler()
-        val runnable = object : Runnable {
+        updateRunnable = object : Runnable {
             override fun run() {
                 if (videoView.isPlaying)
                     seekBar.progress = videoView.currentPosition
@@ -74,18 +95,17 @@ class ActionFragment : Fragment() {
                 updateHandler.postDelayed(this, 16)
             }
         }
-        updateHandler.postDelayed(runnable, 16)
+        updateHandler.postDelayed(updateRunnable, 16)
     }
 
     private fun setupActions() {
-        val actionAdapter = ActionAdapter()
         actionsList.apply {
             layoutManager = LinearLayoutManager(this@ActionFragment.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = actionAdapter
         }
     }
 
-    private fun setPlayPauseButtonListener() {
+    private fun setupPlayPauseListener() {
         videoView.setOnClickListener {
             if (videoView.isPlaying)
                 videoView.pause()
@@ -94,4 +114,9 @@ class ActionFragment : Fragment() {
         }
     }
 
+    private fun setupActionClickListener() {
+        actionAdapter.clickObservable.subscribe {
+            router.navigateTo(it.screen)
+        }
+    }
 }

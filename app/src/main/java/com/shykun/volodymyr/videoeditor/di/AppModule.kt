@@ -1,13 +1,15 @@
 package com.shykun.volodymyr.videoeditor.di
 
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
-import com.shykun.volodymyr.videoeditor.FlowNavigator
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Singleton
 
 @Module
@@ -29,5 +31,5 @@ class NavigationModule(val activity: FragmentActivity, val fragmentManager: Frag
 
     @Provides
     @Singleton
-    fun provideFlowNavigator(): FlowNavigator = FlowNavigator(activity, fragmentManager, containerId)
+    fun provideFlowNavigator(): Navigator = SupportAppNavigator(activity, fragmentManager, containerId)
 }

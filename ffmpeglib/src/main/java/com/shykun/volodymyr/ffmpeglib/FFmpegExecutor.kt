@@ -16,9 +16,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
 
     //Handle FFmpegNotSupportedException
     fun loadBinary(loadBinaryResponseHandler: LoadBinaryResponseHandler): FFmpegExecutor {
-        if (ffmpeg == null) {
             ffmpeg = FFmpeg.getInstance(context)
-        }
         ffmpeg.loadBinary(loadBinaryResponseHandler)
 
         return this
@@ -27,11 +25,11 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for cutting video
      */
-    private fun executeCutVideoCommand(
+    fun executeCutVideoCommand(
         startMs: Int,
         endMs: Int,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler
-    ) {
+    ): String {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -70,12 +68,14 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
         )
 
         ffmpeg.execute(complexCommand, executeBinaryResponseHandler)
+
+        return filePath
     }
 
     /**
      * Command for compressing video
      */
-    private fun executeCompressCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun executeCompressCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -119,7 +119,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for extracting images from video
      */
-    private fun extractImagesVideo(
+    fun extractImagesVideo(
         startMs: Int,
         endMs: Int,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler
@@ -163,7 +163,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for adding fade in fade out effect at start and end of video
      */
-    private fun executeFadeInFadeOutCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler, duration: Int) {
+    fun executeFadeInFadeOutCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler, duration: Int) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -197,7 +197,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for creating fast motion video
      */
-    private fun executeFastMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun executeFastMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -239,7 +239,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for creating slow motion video
      */
-    private fun executeSlowMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun executeSlowMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -282,7 +282,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for extracting audio from video
      */
-    private fun extractAudioVideo(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun extractAudioVideo(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MUSIC
         )
@@ -308,7 +308,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for segmenting video
      */
-    private fun splitVideoCommand(path: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun splitVideoCommand(path: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -348,7 +348,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for reversing segmented videos
      */
-    private fun reverseVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun reverseVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
@@ -372,7 +372,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for concating reversed segmented videos
      */
-    private fun concatVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun concatVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val moviesDir = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_MOVIES
         )
