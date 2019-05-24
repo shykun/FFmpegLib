@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import kotlinx.android.synthetic.main.fragment_upload.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -24,7 +25,7 @@ const val UPLOAD_FRAGMENT_KEY = "upload_fragment_key"
 class UploadFragment : Fragment() {
 
     @Inject
-    lateinit var router: Router
+    lateinit var navController: NavController
 
     private lateinit var viewModel: MainViewModel
 
@@ -88,7 +89,7 @@ class UploadFragment : Fragment() {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
                 viewModel.selectedVideoUri.value =  data!!.data
 
-                router.navigateTo(ActionScreen)
+                navController.navigate(R.id.actionFragment)
             }
         }
     }

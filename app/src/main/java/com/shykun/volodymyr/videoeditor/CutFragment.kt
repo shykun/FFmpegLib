@@ -1,6 +1,5 @@
 package com.shykun.volodymyr.videoeditor
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,16 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import kotlinx.android.synthetic.main.fragment_cut.*
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 
 class CutFragment : Fragment(), BackButtonListener {
 
     @Inject
-    lateinit var router: Router
+    lateinit var navController: NavController
     private lateinit var mainViewModel: MainViewModel
     private lateinit var updateHandler: Handler
     private lateinit var updateRunnable: Runnable
@@ -50,13 +49,17 @@ class CutFragment : Fragment(), BackButtonListener {
         setConfirmCutClickListener()
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        updateHandler.removeCallbacks(updateRunnable)
+    }
 
     private fun setupVideo() {
         cutVideoView.setVideoURI(mainViewModel.selectedVideoUri.value)
         setVideoOnPrepareListener()
         setPlayPauseButtonListener()
         setupRangeSeekbarChangeListener()
-//        setupUpdateHandler()
     }
 
     private fun setPlayPauseButtonListener() {
@@ -124,9 +127,7 @@ class CutFragment : Fragment(), BackButtonListener {
     }
 
     private fun setConfirmCutClickListener() {
-        val progressDialog = ProgressDialog(activity)
-        progressDialog.setTitle(null)
-        progressDialog.setCancelable(false)
+        val progressDialog = getProgressDialog(this.context!!)
         confirmButton.setOnClickListener {
             resultFilePath = (activity as MainActivity).ffmpeg.executeCutVideoCommand(
                 curStartValue,
@@ -160,7 +161,7 @@ class CutFragment : Fragment(), BackButtonListener {
     }
 
     override fun onBackClicked(): Boolean {
-        router.exit()
+        navController.popBackStack()
         return true
     }
 }

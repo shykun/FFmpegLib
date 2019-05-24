@@ -2,7 +2,10 @@ package com.shykun.volodymyr.videoeditor.di
 
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
+import com.shykun.volodymyr.videoeditor.R
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
@@ -32,4 +35,8 @@ class NavigationModule(val activity: FragmentActivity, val fragmentManager: Frag
     @Provides
     @Singleton
     fun provideFlowNavigator(): Navigator = SupportAppNavigator(activity, fragmentManager, containerId)
+
+    @Provides
+    @Singleton
+    fun provideNavController(): NavController = Navigation.findNavController(activity, R.id.nav_host_fragment)
 }

@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 
 android {
@@ -40,6 +41,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation project(':ffmpeglib')
+
+    //Navigation
+    def nav_version = "2.0.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version" // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version" // For Kotlin use navigation-ui-ktx
 
     //RangeSeekBar
     implementation 'com.crystal:crystalrangeseekbar:1.1.3'

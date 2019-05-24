@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_action.*
 import ru.terrakok.cicerone.Router
@@ -19,7 +20,7 @@ const val ACTION_FRAGMENT_KEY = "action_fragment_key"
 class ActionFragment : Fragment() {
 
     @Inject
-    lateinit var router: Router
+    lateinit var navController: NavController
     private lateinit var mainViewModel: MainViewModel
     private lateinit var actionAdapter: ActionAdapter
 
@@ -116,7 +117,7 @@ class ActionFragment : Fragment() {
 
     private fun setupActionClickListener() {
         actionAdapter.clickObservable.subscribe {
-            router.navigateTo(it.screen)
+            navController.navigate(R.id.cutFragment)
         }
     }
 }

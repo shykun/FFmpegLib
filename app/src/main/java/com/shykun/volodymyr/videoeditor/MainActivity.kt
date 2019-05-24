@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
 
+    @Inject
+    lateinit var navController: NavController
 
     val component: AppComponent? by lazy {
         this.let {
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this)
             .get(MainViewModel::class.java)
 
-        showUloadFragment()
+
         subscribeVideoUriLiveDatat()
     }
 
@@ -63,15 +67,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         cicerone.navigatorHolder.removeNavigator()
         super.onPause()
-    }
-
-    fun showUloadFragment() {
-
-        router.navigateTo(UploadScreen)
-    }
-
-    fun showOptionsFragment() {
-        router.navigateTo(ActionScreen)
     }
 
     private fun subscribeVideoUriLiveDatat() {
@@ -101,9 +96,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.mainFragmentContainer)
-        if (currentFragment is BackButtonListener && !currentFragment.onBackClicked())
-            finish()
-    }
+//    override fun onBackPressed() {
+//        val currentFragment = supportFragmentManager.findFragmentById(R.id.mainFragmentContainer)
+//        if (currentFragment is BackButtonListener && !currentFragment.onBackClicked())
+//            finish()
+//    }
 }
