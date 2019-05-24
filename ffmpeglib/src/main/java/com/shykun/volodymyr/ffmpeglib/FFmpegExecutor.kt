@@ -10,7 +10,7 @@ import java.io.File
 import org.apache.commons.io.comparator.LastModifiedFileComparator
 import java.util.*
 
-class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
+class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
 
     private lateinit var ffmpeg: FFmpeg
 
@@ -28,30 +28,17 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     fun executeCutVideoCommand(
         startMs: Int,
         endMs: Int,
+        filePath: String,
+        saveFilePath: String,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler
     ): String {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MOVIES
-        )
-
-        val filePrefix = "cut_video"
-        val fileExtn = ".mp4"
-        val yourRealPath = getPath(context, videoUri)
-        var dest = File(moviesDir, filePrefix + fileExtn)
-        var fileNo = 0
-        while (dest.exists()) {
-            fileNo++
-            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-        }
-
-        val filePath = dest.absolutePath
         //String[] complexCommand = {"-i", yourRealPath, "-ss", "" + startMs / 1000, "-t", "" + endMs / 1000, dest.getAbsolutePath()};
         val complexCommand = arrayOf(
             "-ss",
             "" + startMs / 1000,
             "-y",
             "-i",
-            yourRealPath,
+            filePath,
             "-t",
             "" + (endMs - startMs) / 1000,
             "-vcodec",
@@ -64,7 +51,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
             "2",
             "-ar",
             "22050",
-            filePath
+            saveFilePath
         )
 
         ffmpeg.execute(complexCommand, executeBinaryResponseHandler)
@@ -197,24 +184,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for creating fast motion video
      */
-    fun executeFastMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MOVIES
-        )
-
-        val filePrefix = "speed_video"
-        val fileExtn = ".mp4"
-        val yourRealPath = getPath(context, videoUri)
-
-
-        var dest = File(moviesDir, filePrefix + fileExtn)
-        var fileNo = 0
-        while (dest.exists()) {
-            fileNo++
-            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-        }
-
-        val filePath = dest.absolutePath
+    fun executeFastMotionVideoCommand(yourRealPath: String, filePath: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val complexCommand = arrayOf(
             "-y",
             "-i",
@@ -239,25 +209,7 @@ class FFmpegExecutor(private val context: Context, private val videoUri: Uri) {
     /**
      * Command for creating slow motion video
      */
-    fun executeSlowMotionVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MOVIES
-        )
-
-        val filePrefix = "slowmotion_video"
-        val fileExtn = ".mp4"
-        val yourRealPath = getPath(context, videoUri)
-
-
-        var dest = File(moviesDir, filePrefix + fileExtn)
-        var fileNo = 0
-        while (dest.exists()) {
-            fileNo++
-            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-        }
-
-
-        val filePath = dest.absolutePath
+    fun executeSlowMotionVideoCommand(yourRealPath: String, filePath: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val complexCommand = arrayOf(
             "-y",
             "-i",

@@ -1,17 +1,14 @@
 package com.shykun.volodymyr.videoeditor
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
+import com.shykun.volodymyr.videoeditor.usecase.CutUseCase
 import kotlinx.android.synthetic.main.fragment_cut.*
 import javax.inject.Inject
 
@@ -129,34 +126,38 @@ class CutFragment : Fragment(), BackButtonListener {
     private fun setConfirmCutClickListener() {
         val progressDialog = getProgressDialog(this.context!!)
         confirmButton.setOnClickListener {
-            resultFilePath = (activity as MainActivity).ffmpeg.executeCutVideoCommand(
-                curStartValue,
-                curEndValue,
-                object : ExecuteBinaryResponseHandler() {
-                    override fun onFinish() {
-                        progressDialog.dismiss()
-                    }
+//            resultFilePath = (activity as MainActivity).ffmpeg.executeCutVideoCommand(
+//                curStartValue,
+//                curEndValue,
+//                object : ExecuteBinaryResponseHandler() {
+//                    override fun onFinish() {
+//                        progressDialog.dismiss()
+//                    }
+//
+//                    override fun onSuccess(message: String?) {
+//                        Toast.makeText(this@CutFragment.context, "SUCCESS", Toast.LENGTH_SHORT).show()
+//                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(resultFilePath))
+//                        intent.setDataAndType(Uri.parse(resultFilePath), "video/mp4")
+//                        startActivity(intent)
+//                    }
+//
+//                    override fun onFailure(message: String?) {
+//                        Toast.makeText(this@CutFragment.context, "FAILURE", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    override fun onProgress(message: String?) {
+//                        progressDialog.setMessage("progress : $message")
+//                    }
+//
+//                    override fun onStart() {
+//                        progressDialog.setMessage("Processing...")
+//                        progressDialog.show()
+//                    }
+//                })
 
-                    override fun onSuccess(message: String?) {
-                        Toast.makeText(this@CutFragment.context, "SUCCESS", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(resultFilePath))
-                        intent.setDataAndType(Uri.parse(resultFilePath), "video/mp4")
-                        startActivity(intent)
-                    }
-
-                    override fun onFailure(message: String?) {
-                        Toast.makeText(this@CutFragment.context, "FAILURE", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onProgress(message: String?) {
-                        progressDialog.setMessage("progress : $message")
-                    }
-
-                    override fun onStart() {
-                        progressDialog.setMessage("Processing...")
-                        progressDialog.show()
-                    }
-                })
+            val cutUseCase =
+                CutUseCase((activity as MainActivity).ffmpeg, this.context!!)
+            cutUseCase.execute(curStartValue, curEndValue)
         }
     }
 

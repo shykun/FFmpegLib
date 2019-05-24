@@ -1,6 +1,7 @@
 package com.shykun.volodymyr.videoeditor
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
+import com.shykun.volodymyr.videoeditor.usecase.FastMotionUseCase
+import com.shykun.volodymyr.videoeditor.usecase.SlowMotionUseCase
 import kotlinx.android.synthetic.main.fragment_action.*
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 const val ACTION_FRAGMENT_KEY = "action_fragment_key"
@@ -26,6 +29,7 @@ class ActionFragment : Fragment() {
 
     private lateinit var updateHandler: Handler
     private lateinit var updateRunnable: Runnable
+    private lateinit var fFmpegExecutor: FFmpegExecutor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,7 @@ class ActionFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
+        fFmpegExecutor = (activity as MainActivity).ffmpeg
         actionAdapter = ActionAdapter()
 
     }
@@ -66,7 +71,7 @@ class ActionFragment : Fragment() {
             endTime.text = "$minutes : $seconds"
 
             it.setOnSeekCompleteListener {
-                    if (!videoView.isPlaying)
+                if (!videoView.isPlaying)
                     videoView.start()
             }
 
@@ -115,9 +120,21 @@ class ActionFragment : Fragment() {
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun setupActionClickListener() {
         actionAdapter.clickObservable.subscribe {
-            navController.navigate(R.id.cutFragment)
+
+            when (it.name) {
+                "Cut" -> performCutAction()
+                "Slow Motion" -> performSlowMotionAction()
+                "Fast Motion" -> performFastMotionAction()
+            }
         }
     }
+
+    private fun performCutAction() = navController.navigate(R.id.cutFragment)
+
+    private fun performSlowMotionAction() = SlowMotionUseCase(fFmpegExecutor, context!!).execute()
+
+    private fun performFastMotionAction() = FastMotionUseCase(fFmpegExecutor, context!!).execute()
 }

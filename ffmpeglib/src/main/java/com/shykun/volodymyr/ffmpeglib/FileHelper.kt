@@ -9,6 +9,21 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import java.io.File
 
+fun getSavePath(filePrefix: String): String {
+    val moviesDir = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_MOVIES
+    )
+    val fileExtn = ".mp4"
+    var dest = File(moviesDir, filePrefix + fileExtn)
+    var fileNo = 0
+    while (dest.exists()) {
+        fileNo++
+        dest = File(moviesDir, filePrefix + fileNo + fileExtn)
+    }
+
+    return dest.absolutePath
+}
+
 fun getPath(context: Context, uri: Uri): String? {
 
     // DocumentProvider
