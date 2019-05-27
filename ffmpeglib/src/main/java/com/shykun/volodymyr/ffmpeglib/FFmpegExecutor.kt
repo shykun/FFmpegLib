@@ -236,22 +236,23 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     /**
      * Command for extracting audio from video
      */
-    fun extractAudioVideo(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MUSIC
-        )
-
-        val filePrefix = "extract_audio"
-        val fileExtn = ".mp3"
-        val yourRealPath = getPath(context, videoUri)
-        var dest = File(moviesDir, filePrefix + fileExtn)
-
-        var fileNo = 0
-        while (dest.exists()) {
-            fileNo++
-            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-        }
-        val filePath = dest.absolutePath
+    fun extractAudioVideo(yourRealPath: String, filePath: String,
+                          executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+//        val moviesDir = Environment.getExternalStoragePublicDirectory(
+//            Environment.DIRECTORY_MUSIC
+//        )
+//
+//        val filePrefix = "extract_audio"
+//        val fileExtn = ".mp3"
+//        val yourRealPath = getPath(context, videoUri)
+//        var dest = File(moviesDir, filePrefix + fileExtn)
+//
+//        var fileNo = 0
+//        while (dest.exists()) {
+//            fileNo++
+//            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
+//        }
+//        val filePath = dest.absolutePath
 
         val complexCommand =
             arrayOf("-y", "-i", yourRealPath, "-vn", "-ar", "44100", "-ac", "2", "-b:a", "256k", "-f", "mp3", filePath)

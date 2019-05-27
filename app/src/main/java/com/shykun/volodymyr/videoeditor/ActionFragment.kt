@@ -16,6 +16,8 @@ import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
 import com.shykun.volodymyr.videoeditor.usecase.ExtractImagesUseCase
 import com.shykun.volodymyr.videoeditor.usecase.FastMotionUseCase
 import com.shykun.volodymyr.videoeditor.usecase.SlowMotionUseCase
+import com.shykun.volodymyr.videoeditor.usecase.ExtractAudioUseCase
+
 import kotlinx.android.synthetic.main.fragment_action.*
 import javax.inject.Inject
 
@@ -141,4 +143,6 @@ class ActionFragment : Fragment() {
     private fun performFastMotionAction() = FastMotionUseCase(fFmpegExecutor, context!!).execute()
 
     private fun performExtrtactImagesAction() = ExtractImagesUseCase(fFmpegExecutor, context!!).execute(0, videoView.duration)
+
+    private fun perfomExtractAudioAction() = ExtractAudioUseCase(fFmpegExecutor, context!!).execute()
 }

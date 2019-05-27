@@ -24,7 +24,7 @@ fun getVideoSavePath(filePrefix: String): String {
     return dest.absolutePath
 }
 
-fun getMusicSavePath(filePrefix: String): String {
+fun getAudioSavePath(filePrefix: String): String {
     val moviesDir = Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_MUSIC
     )
