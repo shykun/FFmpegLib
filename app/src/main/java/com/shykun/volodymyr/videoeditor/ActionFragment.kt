@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
+import com.shykun.volodymyr.videoeditor.usecase.ExtractImagesUseCase
 import com.shykun.volodymyr.videoeditor.usecase.FastMotionUseCase
 import com.shykun.volodymyr.videoeditor.usecase.SlowMotionUseCase
 import kotlinx.android.synthetic.main.fragment_action.*
@@ -128,6 +129,7 @@ class ActionFragment : Fragment() {
                 "Cut" -> performCutAction()
                 "Slow Motion" -> performSlowMotionAction()
                 "Fast Motion" -> performFastMotionAction()
+                "Extract Images" -> performExtrtactImagesAction()
             }
         }
     }
@@ -137,4 +139,6 @@ class ActionFragment : Fragment() {
     private fun performSlowMotionAction() = SlowMotionUseCase(fFmpegExecutor, context!!).execute()
 
     private fun performFastMotionAction() = FastMotionUseCase(fFmpegExecutor, context!!).execute()
+
+    private fun performExtrtactImagesAction() = ExtractImagesUseCase(fFmpegExecutor, context!!).execute(0, videoView.duration)
 }

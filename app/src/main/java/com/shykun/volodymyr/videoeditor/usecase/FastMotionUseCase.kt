@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
 import com.shykun.volodymyr.ffmpeglib.getPath
-import com.shykun.volodymyr.ffmpeglib.getSavePath
+import com.shykun.volodymyr.ffmpeglib.getVideoSavePath
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 
 class FastMotionUseCase(private val ffmpeg: FFmpegExecutor, private val context: Context) {
@@ -15,7 +15,7 @@ class FastMotionUseCase(private val ffmpeg: FFmpegExecutor, private val context:
 
     fun execute() {
         val yourRealPath = getPath(context, ffmpeg.videoUri)
-        val filePath = getSavePath("fastmotion_video")
+        val filePath = getVideoSavePath("fastmotion_video")
 
         ffmpeg.executeFastMotionVideoCommand(yourRealPath!!, filePath, object : ExecuteBinaryResponseHandler() {
             override fun onFinish() {

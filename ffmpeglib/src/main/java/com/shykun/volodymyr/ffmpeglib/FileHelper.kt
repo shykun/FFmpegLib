@@ -9,7 +9,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import java.io.File
 
-fun getSavePath(filePrefix: String): String {
+fun getVideoSavePath(filePrefix: String): String {
     val moviesDir = Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_MOVIES
     )
@@ -22,6 +22,40 @@ fun getSavePath(filePrefix: String): String {
     }
 
     return dest.absolutePath
+}
+
+fun getMusicSavePath(filePrefix: String): String {
+    val moviesDir = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_MUSIC
+    )
+
+    val fileExtn = ".mp3"
+    var dest = File(moviesDir, filePrefix + fileExtn)
+
+    var fileNo = 0
+    while (dest.exists()) {
+        fileNo++
+        dest = File(moviesDir, filePrefix + fileNo + fileExtn)
+    }
+    return dest.absolutePath
+}
+
+fun getImagesSaveDir(dirPrefix: String): File {
+    val moviesDir = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES
+    )
+
+    val filePrefix = "extract_picture"
+    val fileExtn = ".jpg"
+
+    var dir = File(moviesDir, "VideoEditor")
+    var fileNo = 0
+    while (dir.exists()) {
+        fileNo++
+        dir = File(moviesDir, "VideoEditor$fileNo")
+
+    }
+    return dir
 }
 
 fun getPath(context: Context, uri: Uri): String? {

@@ -109,26 +109,28 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     fun extractImagesVideo(
         startMs: Int,
         endMs: Int,
+        yourRealPath: String,
+        destPath: String,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler
     ) {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES
-        )
-
-        val filePrefix = "extract_picture"
-        val fileExtn = ".jpg"
-        val yourRealPath = getPath(context, videoUri)
-
-        var dir = File(moviesDir, "VideoEditor")
-        var fileNo = 0
-        while (dir.exists()) {
-            fileNo++
-            dir = File(moviesDir, "VideoEditor$fileNo")
-
-        }
-        dir.mkdir()
-        val filePath = dir.absolutePath
-        val dest = File(dir, "$filePrefix%03d$fileExtn")
+//        val moviesDir = Environment.getExternalStoragePublicDirectory(
+//            Environment.DIRECTORY_PICTURES
+//        )
+//
+//        val filePrefix = "extract_picture"
+//        val fileExtn = ".jpg"
+//        val yourRealPath = getPath(context, videoUri)
+//
+//        var dir = File(moviesDir, "VideoEditor")
+//        var fileNo = 0
+//        while (dir.exists()) {
+//            fileNo++
+//            dir = File(moviesDir, "VideoEditor$fileNo")
+//
+//        }
+//        dir.mkdir()
+//        val filePath = dir.absolutePath
+//        val dest = File(dir, "$filePrefix%03d$fileExtn")
 
         val complexCommand = arrayOf(
             "-y",
@@ -141,7 +143,7 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
             "" + startMs / 1000,
             "-t",
             "" + (endMs - startMs) / 1000,
-            dest.absolutePath
+            destPath
         )
         /*   Remove -r 1 if you want to extract all video frames as images from the specified time duration.*/
         ffmpeg.execute(complexCommand, executeBinaryResponseHandler)

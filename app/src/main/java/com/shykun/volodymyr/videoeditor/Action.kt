@@ -8,6 +8,6 @@ val actions = arrayOf(
     Action("Cut", R.drawable.ic_cut_white_24dp, CutScreen),
     Action("Slow Motion", R.drawable.ic_error_outline_black_24dp, CutScreen),
     Action("Fast Motion", R.drawable.ic_error_outline_black_24dp, CutScreen),
-    Action("Reverse", R.drawable.ic_error_outline_black_24dp, CutScreen),
+    Action("Extract Images", R.drawable.ic_error_outline_black_24dp, CutScreen),
     Action("Compress", R.drawable.ic_error_outline_black_24dp, CutScreen)
 )
