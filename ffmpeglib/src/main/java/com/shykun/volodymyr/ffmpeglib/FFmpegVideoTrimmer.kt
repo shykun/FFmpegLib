@@ -10,18 +10,12 @@ import java.io.IOException
 
 class FFmpegVideoTrimmer(private val context: Context) {
 
-    private var video: File? = null
     private var videoUri: Uri? = null
     private var callback: FFMpegCallback? = null
     private var outputPath = ""
     private var outputFileName = ""
     private var startTime = 0
     private var endTime = 0
-
-    fun setFile(originalFiles: File): FFmpegVideoTrimmer {
-        this.video = originalFiles
-        return this
-    }
 
     fun setVideoUri(videoUri: Uri): FFmpegVideoTrimmer {
         this.videoUri = videoUri
@@ -53,9 +47,9 @@ class FFmpegVideoTrimmer(private val context: Context) {
         return this
     }
 
-    fun trim() {
+    fun execute() {
         val outputLocation = getConvertedFile(outputPath, outputFileName)
-        val path = if (video != null) video!!.path else getPath(context, videoUri!!)
+        val path = getPath(context, videoUri!!)
 
         val cmd = arrayOf(
             "-i",

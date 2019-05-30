@@ -143,7 +143,7 @@ class ActionFragment : Fragment() {
 
     private fun performExtrtactImagesAction() = ExtractImagesUseCase(fFmpegExecutor, context!!).execute(0, videoView.duration)
 
-    private fun perfomExtractAudioAction() = ExtractAudioUseCase(fFmpegExecutor, context!!).execute()
+    private fun perfomExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performReverseUseCase() = ReverseUseCase(fFmpegExecutor, context!!).execute()
 }
