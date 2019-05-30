@@ -6,19 +6,19 @@ import android.net.Uri
 import android.widget.Toast
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
-import com.shykun.volodymyr.ffmpeglib.getAudioSavePath
 import com.shykun.volodymyr.ffmpeglib.getPath
+import com.shykun.volodymyr.ffmpeglib.getVideoSavePath
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 
-class ExtractAudioUseCase(private val ffmpeg: FFmpegExecutor, private val context: Context) {
 
+class ReverseUseCase(private val ffmpeg: FFmpegExecutor, private val context: Context) {
     val progressDialog = getProgressDialog(context)
 
     fun execute() {
         val yourRealPath = getPath(context, ffmpeg.videoUri)
-        val filePath = getAudioSavePath("VideoEditor")
+        val filePath = getVideoSavePath("reverse_video")
 
-        ffmpeg.extractAudioVideo(yourRealPath!!, filePath, object : ExecuteBinaryResponseHandler() {
+        ffmpeg.reverseVideoCommand(yourRealPath!!, filePath, object : ExecuteBinaryResponseHandler() {
             override fun onFinish() {
                 progressDialog.dismiss()
             }
@@ -26,7 +26,7 @@ class ExtractAudioUseCase(private val ffmpeg: FFmpegExecutor, private val contex
             override fun onSuccess(message: String?) {
                 Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(filePath))
-                intent.setDataAndType(Uri.parse(filePath), "audio/*")
+                intent.setDataAndType(Uri.parse(filePath), "video/mp4")
                 context.startActivity(intent)
             }
 

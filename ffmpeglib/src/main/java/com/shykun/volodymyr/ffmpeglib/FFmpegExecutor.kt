@@ -6,8 +6,8 @@ import android.os.Environment
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler
-import java.io.File
 import org.apache.commons.io.comparator.LastModifiedFileComparator
+import java.io.File
 import java.util.*
 
 class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
@@ -16,7 +16,7 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
 
     //Handle FFmpegNotSupportedException
     fun loadBinary(loadBinaryResponseHandler: LoadBinaryResponseHandler): FFmpegExecutor {
-            ffmpeg = FFmpeg.getInstance(context)
+        ffmpeg = FFmpeg.getInstance(context)
         ffmpeg.loadBinary(loadBinaryResponseHandler)
 
         return this
@@ -113,25 +113,6 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
         destPath: String,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler
     ) {
-//        val moviesDir = Environment.getExternalStoragePublicDirectory(
-//            Environment.DIRECTORY_PICTURES
-//        )
-//
-//        val filePrefix = "extract_picture"
-//        val fileExtn = ".jpg"
-//        val yourRealPath = getPath(context, videoUri)
-//
-//        var dir = File(moviesDir, "VideoEditor")
-//        var fileNo = 0
-//        while (dir.exists()) {
-//            fileNo++
-//            dir = File(moviesDir, "VideoEditor$fileNo")
-//
-//        }
-//        dir.mkdir()
-//        val filePath = dir.absolutePath
-//        val dest = File(dir, "$filePrefix%03d$fileExtn")
-
         val complexCommand = arrayOf(
             "-y",
             "-i",
@@ -186,7 +167,11 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     /**
      * Command for creating fast motion video
      */
-    fun executeFastMotionVideoCommand(yourRealPath: String, filePath: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun executeFastMotionVideoCommand(
+        yourRealPath: String,
+        filePath: String,
+        executeBinaryResponseHandler: ExecuteBinaryResponseHandler
+    ) {
         val complexCommand = arrayOf(
             "-y",
             "-i",
@@ -211,7 +196,11 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     /**
      * Command for creating slow motion video
      */
-    fun executeSlowMotionVideoCommand(yourRealPath: String, filePath: String, executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+    fun executeSlowMotionVideoCommand(
+        yourRealPath: String,
+        filePath: String,
+        executeBinaryResponseHandler: ExecuteBinaryResponseHandler
+    ) {
         val complexCommand = arrayOf(
             "-y",
             "-i",
@@ -236,24 +225,9 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     /**
      * Command for extracting audio from video
      */
-    fun extractAudioVideo(yourRealPath: String, filePath: String,
-                          executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-//        val moviesDir = Environment.getExternalStoragePublicDirectory(
-//            Environment.DIRECTORY_MUSIC
-//        )
-//
-//        val filePrefix = "extract_audio"
-//        val fileExtn = ".mp3"
-//        val yourRealPath = getPath(context, videoUri)
-//        var dest = File(moviesDir, filePrefix + fileExtn)
-//
-//        var fileNo = 0
-//        while (dest.exists()) {
-//            fileNo++
-//            dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-//        }
-//        val filePath = dest.absolutePath
-
+    fun extractAudioVideo(
+        yourRealPath: String, filePath: String,
+        executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
         val complexCommand =
             arrayOf("-y", "-i", yourRealPath, "-vn", "-ar", "44100", "-ac", "2", "-b:a", "256k", "-f", "mp3", filePath)
 
@@ -303,25 +277,12 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
     /**
      * Command for reversing segmented videos
      */
-    fun reverseVideoCommand(executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-        val moviesDir = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MOVIES
-        )
-        val srcDir = File(moviesDir, ".VideoSplit")
-        val files = srcDir.listFiles()
-        val filePrefix = "reverse_video"
-        val fileExtn = ".mp4"
-        val destDir = File(moviesDir, ".VideoPartsReverse")
-        if (destDir.exists())
-            deleteDir(destDir)
-        destDir.mkdir()
-        for (i in files.indices) {
-            val dest = File(destDir, filePrefix + i + fileExtn)
-            val command = arrayOf("-i", files[i].absolutePath, "-vf", "reverse", "-af", "areverse", dest.absolutePath)
-            if (i == files.size - 1)
-            //lastReverseCommand = command ????
-                ffmpeg.execute(command, executeBinaryResponseHandler)
-        }
+    fun reverseVideoCommand(
+        filePath: String,
+        filePathSave: String,
+        executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
+        val command = arrayOf("-i", filePath, "-vf", "reverse", "-af", "areverse", filePathSave)
+        ffmpeg.execute(command, executeBinaryResponseHandler)
     }
 
     /**

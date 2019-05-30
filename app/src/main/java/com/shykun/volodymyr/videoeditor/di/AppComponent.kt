@@ -1,7 +1,7 @@
 package com.shykun.volodymyr.videoeditor.di
 
 import com.shykun.volodymyr.videoeditor.ActionFragment
-import com.shykun.volodymyr.videoeditor.CutFragment
+import com.shykun.volodymyr.videoeditor.RangeSeekBarFragment
 import com.shykun.volodymyr.videoeditor.MainActivity
 import com.shykun.volodymyr.videoeditor.UploadFragment
 import dagger.Component
@@ -13,5 +13,5 @@ interface AppComponent {
     fun inject(target: MainActivity)
     fun inject(target: UploadFragment)
     fun inject(target: ActionFragment)
-    fun inject(target: CutFragment)
+    fun inject(target: RangeSeekBarFragment)
 }

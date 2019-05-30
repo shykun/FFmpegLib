@@ -13,10 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
-import com.shykun.volodymyr.videoeditor.usecase.ExtractImagesUseCase
-import com.shykun.volodymyr.videoeditor.usecase.FastMotionUseCase
-import com.shykun.volodymyr.videoeditor.usecase.SlowMotionUseCase
-import com.shykun.volodymyr.videoeditor.usecase.ExtractAudioUseCase
+import com.shykun.volodymyr.videoeditor.usecase.*
 
 import kotlinx.android.synthetic.main.fragment_action.*
 import javax.inject.Inject
@@ -41,7 +38,7 @@ class ActionFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
-        fFmpegExecutor = (activity as MainActivity).ffmpeg
+//        fFmpegExecutor = (activity as MainActivity).ffmpeg
         actionAdapter = ActionAdapter()
 
     }
@@ -132,6 +129,8 @@ class ActionFragment : Fragment() {
                 "Slow Motion" -> performSlowMotionAction()
                 "Fast Motion" -> performFastMotionAction()
                 "Extract Images" -> performExtrtactImagesAction()
+                "Extract Audio" -> perfomExtractAudioAction()
+                "Reverse Video" -> performReverseUseCase()
             }
         }
     }
@@ -145,4 +144,6 @@ class ActionFragment : Fragment() {
     private fun performExtrtactImagesAction() = ExtractImagesUseCase(fFmpegExecutor, context!!).execute(0, videoView.duration)
 
     private fun perfomExtractAudioAction() = ExtractAudioUseCase(fFmpegExecutor, context!!).execute()
+
+    private fun performReverseUseCase() = ReverseUseCase(fFmpegExecutor, context!!).execute()
 }
