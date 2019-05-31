@@ -14,6 +14,6 @@ interface FFMpegCallback {
 
     fun onNotAvailable(error: Exception)
 
-    fun onFinish(resultPath: String)
+    fun onFinish()
 
 }

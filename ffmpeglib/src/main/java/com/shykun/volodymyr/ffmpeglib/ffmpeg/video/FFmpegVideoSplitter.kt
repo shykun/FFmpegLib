@@ -9,75 +9,70 @@ import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
+import java.io.File
 import java.io.IOException
 
-class FFmpegVideoFastMotion(private val context: Context) {
+class FFmpegVideoSplitter(private val context: Context) {
 
     private var videoUri: Uri? = null
     private var callback: FFMpegCallback? = null
     private var outputPath = ""
     private var outputFileName = ""
-    private var coefficient = 1.0
+    private var segementTime = 0
 
-    fun setVideoUri(videoUri: Uri): FFmpegVideoFastMotion {
+    fun setVideoUri(videoUri: Uri): FFmpegVideoSplitter {
         this.videoUri = videoUri
         return this
     }
 
-    fun setCallback(callback: FFMpegCallback): FFmpegVideoFastMotion {
+    fun setCallback(callback: FFMpegCallback): FFmpegVideoSplitter {
         this.callback = callback
         return this
     }
 
-    fun setOutputPath(output: String): FFmpegVideoFastMotion {
+    fun setOutputPath(output: String): FFmpegVideoSplitter {
         this.outputPath = output
         return this
     }
 
-    fun setOutputFileName(output: String): FFmpegVideoFastMotion {
+    fun setOutputFileName(output: String): FFmpegVideoSplitter {
         this.outputFileName = output
         return this
     }
 
-    fun setCoefficient(coefficient: Double) {
-        this.coefficient = 1.0 / coefficient
+    fun setSegmentTime(segmentTimeInSec: Int): FFmpegVideoSplitter {
+        this.segementTime = segmentTimeInSec
+        return this
     }
 
     fun execute() {
-        val outputLocation = getConvertedFile(outputPath, outputFileName)
+        val outputLocation = getConvertedFile(outputPath, "")
         val path = getPath(context, videoUri!!)
 
         val command = arrayOf(
-            "-y",
             "-i",
             path,
-            "-filter_complex",
-            "[0:v]setpts=$coefficient*PTS[v];[0:a]atempo=2.0[a]",
+            "-c",
+            "copy",
             "-map",
-            "[v]",
-            "-map",
-            "[a]",
-            "-b:v",
-            "2097k",
-            "-r",
-            "60",
-            "-vcodec",
-            "mpeg4",
-            outputLocation.path
+            "0",
+            "-segment_time",
+            segementTime.toString(),
+            "-f",
+            "segment",
+            outputLocation.path + File.separator + outputFileName + "%03d.mp4"
         )
 
         try {
             FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {
-                    callback?.onStart()
-                }
+                override fun onStart() {}
 
                 override fun onProgress(message: String?) {
                     callback?.onProgress(message!!)
                 }
 
                 override fun onSuccess(message: String?) {
-                    callback?.onSuccess(outputLocation, ContentType.VIDEO)
+                    callback?.onSuccess(outputLocation, ContentType.MULTIPLE_VIDEO)
 
                 }
 
@@ -93,9 +88,9 @@ class FFmpegVideoFastMotion(private val context: Context) {
                 }
             })
         } catch (e: Exception) {
-            callback?.onFailure(e)
+            callback!!.onFailure(e)
         } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback?.onNotAvailable(e2)
+            callback!!.onNotAvailable(e2)
         }
 
     }

@@ -53,15 +53,15 @@ class FFmpegVideoReverser(private val context: Context) {
         try {
             FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
                 override fun onStart() {
-                    callback!!.onStart()
+                    callback?.onStart()
                 }
 
                 override fun onProgress(message: String?) {
-                    callback!!.onProgress(message!!)
+                    callback?.onProgress(message!!)
                 }
 
                 override fun onSuccess(message: String?) {
-                    callback!!.onSuccess(outputLocation, ContentType.VIDEO)
+                    callback?.onSuccess(outputLocation, ContentType.VIDEO)
 
                 }
 
@@ -69,17 +69,17 @@ class FFmpegVideoReverser(private val context: Context) {
                     if (outputLocation.exists()) {
                         outputLocation.delete()
                     }
-                    callback!!.onFailure(IOException(message))
+                    callback?.onFailure(IOException(message))
                 }
 
                 override fun onFinish() {
-                    callback!!.onFinish(outputLocation.path)
+                    callback?.onFinish()
                 }
             })
         } catch (e: Exception) {
-            callback!!.onFailure(e)
+            callback?.onFailure(e)
         } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback!!.onNotAvailable(e2)
+            callback?.onNotAvailable(e2)
         }
 
     }
