@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.ffmpeglib.ffmpeg.video
+package com.shykun.volodymyr.ffmpeglib.ffmpeg.audio
 
 import android.content.Context
 import android.net.Uri
@@ -11,52 +11,52 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoTrimmer(private val context: Context) {
+class FFmpegAudioTrimmer private constructor(private val context: Context) {
 
-    private var videoUri: Uri? = null
+    private var audioUri: Uri? = null
     private var callback: FFMpegCallback? = null
-    private var outputPath = ""
-    private var outputFileName = ""
     private var startTime = 0
     private var endTime = 0
+    private var outputPath = ""
+    private var outputFileName = ""
 
-    fun setVideoUri(videoUri: Uri): FFmpegVideoTrimmer {
-        this.videoUri = videoUri
+    fun setAudioUri(audioUri: Uri): FFmpegAudioTrimmer {
+        this.audioUri = audioUri
         return this
     }
 
-    fun setCallback(callback: FFMpegCallback): FFmpegVideoTrimmer {
+    fun setCallback(callback: FFMpegCallback): FFmpegAudioTrimmer {
         this.callback = callback
         return this
     }
 
-    fun setOutputPath(output: String): FFmpegVideoTrimmer {
-        this.outputPath = output
-        return this
-    }
-
-    fun setOutputFileName(output: String): FFmpegVideoTrimmer {
-        this.outputFileName = output
-        return this
-    }
-
-    fun setStartTime(startTimeMills: Int): FFmpegVideoTrimmer {
+    fun setStartTime(startTimeMills: Int): FFmpegAudioTrimmer {
         this.startTime = startTimeMills
         return this
     }
 
-    fun setEndTime(endTimeMills: Int): FFmpegVideoTrimmer {
+    fun setEndTime(endTimeMills: Int): FFmpegAudioTrimmer {
         this.endTime = endTimeMills
+        return this
+    }
+
+    fun setOutputPath(output: String): FFmpegAudioTrimmer {
+        this.outputPath = output
+        return this
+    }
+
+    fun setOutputFileName(output: String): FFmpegAudioTrimmer {
+        this.outputFileName = output
         return this
     }
 
     fun execute() {
         val outputLocation = getConvertedFile(outputPath, outputFileName)
-        val path = getPath(context, videoUri!!)
+        val audioPath = getPath(context, audioUri!!)
 
-        val command = arrayOf(
+        val cmd = arrayOf(
             "-i",
-            path,
+            audioPath,
             "-ss",
             (startTime / 1000).toString(),
             "-t",
@@ -67,18 +67,15 @@ class FFmpegVideoTrimmer(private val context: Context) {
         )
 
         try {
-            FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {
-                    callback?.onStart()
-                }
+            FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
+                override fun onStart() {}
 
                 override fun onProgress(message: String?) {
                     callback?.onProgress(message!!)
                 }
 
                 override fun onSuccess(message: String?) {
-                    callback?.onSuccess(outputLocation, ContentType.VIDEO)
-
+                    callback?.onSuccess(outputLocation, ContentType.AUDIO)
                 }
 
                 override fun onFailure(message: String?) {
@@ -92,11 +89,11 @@ class FFmpegVideoTrimmer(private val context: Context) {
                     callback?.onFinish()
                 }
             })
+
         } catch (e: Exception) {
             callback?.onFailure(e)
         } catch (e2: FFmpegCommandAlreadyRunningException) {
             callback?.onNotAvailable(e2)
         }
-
     }
 }

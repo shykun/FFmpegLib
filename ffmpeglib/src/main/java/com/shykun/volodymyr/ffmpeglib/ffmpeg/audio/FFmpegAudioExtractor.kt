@@ -82,7 +82,7 @@ class FFmpegAudioExtractor (private val context: Context) {
                     }
 
                     override fun onFinish() {
-                        callback?.onFinish(outputLocation.path)
+                        callback?.onFinish()
                     }
                 })
             } catch (e: Exception) {
