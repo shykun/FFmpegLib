@@ -32,6 +32,15 @@ class ExtractImagesUseCase(private val videoUri: Uri, private val context: Conte
 
                 override fun onSuccess(convertedFile: File, contentType: ContentType) {
                     Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+                    progressDialog.dismiss()
+//                    val intent = Intent(Intent.ACTION_VIEW)
+//                    val apkURI = FileProvider.getUriForFile(
+//                        context,
+//                        context.applicationContext
+//                            .packageName + ".provider", convertedFile
+//                    )
+//                    intent.setDataAndType(apkURI, "*/*")
+//                    context.startActivity(intent)
                 }
 
                 override fun onFailure(error: Exception) {
@@ -42,57 +51,9 @@ class ExtractImagesUseCase(private val videoUri: Uri, private val context: Conte
                     Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onFinish(resultPath: String) {
-                    progressDialog.dismiss()
-                    val file = File(resultPath)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    val apkURI = FileProvider.getUriForFile(
-                        context,
-                        context.applicationContext
-                            .packageName + ".provider", file
-                    )
-                    intent.setDataAndType(apkURI, "image/jpg")
-                    context.startActivity(intent)
+                override fun onFinish() {
                 }
             })
             .extract()
-
-
-
-//        val filePrefix = "extract_picture"
-//        val fileExtn = ".jpg"
-//        val yourRealPath = getPath(context, ffmpeg.videoUri)
-//
-//        val dir = getImagesSaveDir("VideoEditor")
-//        val filePath = dir.absolutePath
-//        val dest = File(dir, "$filePrefix%03d$fileExtn")
-//        dir.mkdir()
-//
-//        ffmpeg.extractImagesVideo(startMs, endMs, yourRealPath!!, dest.absolutePath,
-//            object : ExecuteBinaryResponseHandler() {
-//                override fun onFinish() {
-//                    progressDialog.dismiss()
-//                }
-//
-//                override fun onSuccess(message: String?) {
-//                    Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-////                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(filePath))
-////                    intent.setDataAndType(Uri.parse(filePath), "video/mp4")
-////                    context.startActivity(intent)
-//                }
-//
-//                override fun onFailure(message: String?) {
-//                    Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onProgress(message: String?) {
-//                    progressDialog.setMessage("progress : $message")
-//                }
-//
-//                override fun onStart() {
-//                    progressDialog.setMessage("Processing...")
-//                    progressDialog.show()
-//                }
-//            })
     }
 }

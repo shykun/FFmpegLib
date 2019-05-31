@@ -9,6 +9,7 @@ import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
+import com.shykun.volodymyr.ffmpeglib.refreshGallery
 import java.io.IOException
 
 class FFmpegVideoTrimmer(private val context: Context) {
@@ -77,6 +78,7 @@ class FFmpegVideoTrimmer(private val context: Context) {
                 }
 
                 override fun onSuccess(message: String?) {
+                    refreshGallery(outputLocation.path, context)
                     callback?.onSuccess(outputLocation, ContentType.VIDEO)
 
                 }

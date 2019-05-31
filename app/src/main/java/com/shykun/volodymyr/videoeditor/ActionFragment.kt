@@ -137,13 +137,13 @@ class ActionFragment : Fragment() {
 
     private fun performCutAction() = navController.navigate(R.id.cutFragment)
 
-    private fun performSlowMotionAction() = SlowMotionUseCase(fFmpegExecutor, context!!).execute()
+    private fun performSlowMotionAction() = SlowMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun performFastMotionAction() = FastMotionUseCase(fFmpegExecutor, context!!).execute()
+    private fun performFastMotionAction() = FastMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performExtrtactImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
 
     private fun perfomExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun performReverseUseCase() = ReverseUseCase(fFmpegExecutor, context!!).execute()
+    private fun performReverseUseCase() = ReverseUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 }

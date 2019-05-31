@@ -34,6 +34,15 @@ class ExtractAudioUseCase(private val videoUri: Uri, private val context: Contex
 
                 override fun onSuccess(convertedFile: File, contentType: ContentType) {
                     Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+                    progressDialog.dismiss()
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    val apkURI = FileProvider.getUriForFile(
+                        context,
+                        context.applicationContext
+                            .packageName + ".provider", convertedFile
+                    )
+                    intent.setDataAndType(apkURI, "audio/mp3")
+                    context.startActivity(intent)
                 }
 
                 override fun onFailure(error: Exception) {
@@ -44,17 +53,7 @@ class ExtractAudioUseCase(private val videoUri: Uri, private val context: Contex
                     Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onFinish(resultPath: String) {
-                    progressDialog.dismiss()
-                    val file = File(resultPath)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    val apkURI = FileProvider.getUriForFile(
-                        context,
-                        context.applicationContext
-                            .packageName + ".provider", file
-                    )
-                    intent.setDataAndType(apkURI, "audio/mp3")
-                    context.startActivity(intent)
+                override fun onFinish() {
                 }
             })
             .execute()

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.shykun.volodymyr.ffmpeglib.*
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoTrimmer
@@ -32,6 +33,15 @@ class CutUseCase(private val videoUri: Uri, private val context: Context) {
 
                 override fun onSuccess(convertedFile: File, contentType: ContentType) {
                     Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+                    progressDialog.dismiss()
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    val apkURI = FileProvider.getUriForFile(
+                        context,
+                        context.applicationContext
+                            .packageName + ".provider", convertedFile
+                    )
+                    intent.setDataAndType(apkURI, "video/mp4")
+                    context.startActivity(intent)
                 }
 
                 override fun onFailure(error: Exception) {
@@ -42,11 +52,7 @@ class CutUseCase(private val videoUri: Uri, private val context: Context) {
                     Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onFinish(resultPath: String) {
-                    progressDialog.dismiss()
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(resultPath))
-                    intent.setDataAndType(Uri.parse(resultPath), "video/mp4")
-                    context.startActivity(intent)
+                override fun onFinish() {
                 }
             })
             .execute()
