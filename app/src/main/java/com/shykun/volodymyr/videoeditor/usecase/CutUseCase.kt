@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import com.shykun.volodymyr.ffmpeglib.*
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoTrimmer
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 

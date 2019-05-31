@@ -1,6 +1,6 @@
-package com.shykun.volodymyr.ffmpeglib
+package com.shykun.volodymyr.ffmpeglib.ffmpeg
 
-import android.net.Uri
+import com.shykun.volodymyr.ffmpeglib.ContentType
 import java.io.File
 
 interface FFMpegCallback {

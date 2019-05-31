@@ -281,7 +281,7 @@ class FFmpegExecutor(private val context: Context, val videoUri: Uri) {
         filePath: String,
         filePathSave: String,
         executeBinaryResponseHandler: ExecuteBinaryResponseHandler) {
-        val command = arrayOf("-i", filePath, "-vf", "reverse", "-af", "areverse", filePathSave)
+        val command = arrayOf("-i", filePath, "-vf", "reverse", filePathSave)
         ffmpeg.execute(command, executeBinaryResponseHandler)
     }
 

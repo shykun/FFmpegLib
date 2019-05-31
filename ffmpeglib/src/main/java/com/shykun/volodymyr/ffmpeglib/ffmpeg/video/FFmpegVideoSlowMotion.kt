@@ -1,70 +1,73 @@
-package com.shykun.volodymyr.ffmpeglib
+package com.shykun.volodymyr.ffmpeglib.ffmpeg.video
 
 import android.content.Context
 import android.net.Uri
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
-import java.io.File
+import com.shykun.volodymyr.ffmpeglib.ContentType
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.ffmpeglib.getConvertedFile
+import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoTrimmer(private val context: Context) {
+class FFmpegVideoSlowMotion(private val context: Context) {
 
     private var videoUri: Uri? = null
     private var callback: FFMpegCallback? = null
     private var outputPath = ""
     private var outputFileName = ""
-    private var startTime = 0
-    private var endTime = 0
+    private var coefficient = 1.0
 
-    fun setVideoUri(videoUri: Uri): FFmpegVideoTrimmer {
+    fun setVideoUri(videoUri: Uri): FFmpegVideoSlowMotion {
         this.videoUri = videoUri
         return this
     }
 
-    fun setCallback(callback: FFMpegCallback): FFmpegVideoTrimmer {
+    fun setCallback(callback: FFMpegCallback): FFmpegVideoSlowMotion {
         this.callback = callback
         return this
     }
 
-    fun setOutputPath(output: String): FFmpegVideoTrimmer {
+    fun setOutputPath(output: String): FFmpegVideoSlowMotion {
         this.outputPath = output
         return this
     }
 
-    fun setOutputFileName(output: String): FFmpegVideoTrimmer {
+    fun setOutputFileName(output: String): FFmpegVideoSlowMotion {
         this.outputFileName = output
         return this
     }
 
-    fun setStartTime(startTimeMills: Int): FFmpegVideoTrimmer {
-        this.startTime = startTimeMills
-        return this
-    }
-
-    fun setEndTime(endTimeMills: Int): FFmpegVideoTrimmer {
-        this.endTime = endTimeMills
-        return this
+    fun setCoefficient(coefficient: Double) {
+        this.coefficient = coefficient
     }
 
     fun execute() {
         val outputLocation = getConvertedFile(outputPath, outputFileName)
         val path = getPath(context, videoUri!!)
 
-        val cmd = arrayOf(
+        val command = arrayOf(
+            "-y",
             "-i",
             path,
-            "-ss",
-            "" + startTime / 1000,
-            "-t",
-            "" + (endTime - startTime) / 1000,
-            "-c",
-            "copy",
+            "-filter_complex",
+            "[0:v]setpts=$coefficient*PTS[v];[0:a]atempo=0.5[a]",
+            "-map",
+            "[v]",
+            "-map",
+            "[a]",
+            "-b:v",
+            "2097k",
+            "-r",
+            "60",
+            "-vcodec",
+            "mpeg4",
             outputLocation.path
         )
 
         try {
-            FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
+            FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
                 override fun onStart() {
                     callback!!.onStart()
                 }

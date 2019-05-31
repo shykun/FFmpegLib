@@ -141,7 +141,7 @@ class ActionFragment : Fragment() {
 
     private fun performFastMotionAction() = FastMotionUseCase(fFmpegExecutor, context!!).execute()
 
-    private fun performExtrtactImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    private fun performExtrtactImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
 
     private fun perfomExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 

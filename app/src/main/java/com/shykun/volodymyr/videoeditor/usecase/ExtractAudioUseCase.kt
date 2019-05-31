@@ -1,14 +1,13 @@
 package com.shykun.volodymyr.videoeditor.usecase
 
-import android.R.attr.mimeType
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.shykun.volodymyr.ffmpeglib.ContentType
-import com.shykun.volodymyr.ffmpeglib.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.FFmpegAudioExtractor
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.audio.FFmpegAudioExtractor
 import com.shykun.volodymyr.ffmpeglib.getOutputPath
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
