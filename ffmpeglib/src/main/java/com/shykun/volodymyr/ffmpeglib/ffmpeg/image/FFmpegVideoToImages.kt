@@ -12,7 +12,7 @@ import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
-class FFmpegImagesFromVideo(private val context: Context) {
+class FFmpegVideoToImages(private val context: Context) {
 
     private var videoUri: Uri? = null
     private var callback: FFMpegCallback? = null
@@ -20,27 +20,27 @@ class FFmpegImagesFromVideo(private val context: Context) {
     private var outputFileName = ""
     private var interval = 1.0
 
-    fun setVideoUri(videoUri: Uri): FFmpegImagesFromVideo {
+    fun setVideoUri(videoUri: Uri): FFmpegVideoToImages {
         this.videoUri = videoUri
         return this
     }
 
-    fun setCallback(callback: FFMpegCallback): FFmpegImagesFromVideo {
+    fun setCallback(callback: FFMpegCallback): FFmpegVideoToImages {
         this.callback = callback
         return this
     }
 
-    fun setOutputPath(output: String): FFmpegImagesFromVideo {
+    fun setOutputPath(output: String): FFmpegVideoToImages {
         this.outputPath = output
         return this
     }
 
-    fun setOutputFileName(output: String): FFmpegImagesFromVideo {
+    fun setOutputFileName(output: String): FFmpegVideoToImages {
         this.outputFileName = output
         return this
     }
 
-    fun setInterval(interval: Double): FFmpegImagesFromVideo {
+    fun setInterval(interval: Double): FFmpegVideoToImages {
         this.interval = interval
         return this
     }

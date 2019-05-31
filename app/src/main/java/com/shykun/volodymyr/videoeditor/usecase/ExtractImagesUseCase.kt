@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.shykun.volodymyr.ffmpeglib.*
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegImagesFromVideo
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegVideoToImages
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
@@ -16,7 +16,7 @@ class ExtractImagesUseCase(private val videoUri: Uri, private val context: Conte
     val progressDialog = getProgressDialog(context)
 
     fun execute(interval: Double) {
-        FFmpegImagesFromVideo(context)
+        FFmpegVideoToImages(context)
             .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "images")
             .setOutputFileName("images")
