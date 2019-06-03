@@ -10,5 +10,6 @@ val actions = arrayOf(
     Action("Fast Motion", R.drawable.ic_error_outline_black_24dp),
     Action("Extract Images", R.drawable.ic_error_outline_black_24dp),
     Action("Extract Audio", R.drawable.ic_error_outline_black_24dp),
-    Action("Reverse Video", R.drawable.ic_error_outline_black_24dp)
+    Action("Reverse Video", R.drawable.ic_error_outline_black_24dp),
+    Action("Split Video", R.drawable.ic_error_outline_black_24dp)
 )

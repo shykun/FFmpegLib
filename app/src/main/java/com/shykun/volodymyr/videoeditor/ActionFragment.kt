@@ -128,8 +128,8 @@ class ActionFragment : Fragment() {
                 "Cut" -> performCutAction()
                 "Slow Motion" -> performSlowMotionAction()
                 "Fast Motion" -> performFastMotionAction()
-                "Extract Images" -> performExtrtactImagesAction()
-                "Extract Audio" -> perfomExtractAudioAction()
+                "Extract Images" -> performExtractImagesAction()
+                "Extract Audio" -> performExtractAudioAction()
                 "Reverse Video" -> performReverseUseCase()
             }
         }
@@ -141,9 +141,13 @@ class ActionFragment : Fragment() {
 
     private fun performFastMotionAction() = FastMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun performExtrtactImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
+    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
 
-    private fun perfomExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    private fun performExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performReverseUseCase() = ReverseUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+
+    private fun perfomSplitVideoUseCase() = SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(10)
+
+    private fun perfomResizeVideoUseCase() = ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
 }
