@@ -56,5 +56,6 @@ class SplitVideoUseCase(private val videoUri: Uri, private val context: Context)
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
             })
+            .execute()
     }
 }

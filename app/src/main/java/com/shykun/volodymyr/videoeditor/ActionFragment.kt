@@ -131,6 +131,9 @@ class ActionFragment : Fragment() {
                 "Extract Images" -> performExtractImagesAction()
                 "Extract Audio" -> performExtractAudioAction()
                 "Reverse Video" -> performReverseUseCase()
+                "Split Video" -> perfomSplitVideoUseCase()
+                "Resize" -> perfomResizeVideoUseCase()
+                "Convert to GIF" -> performConvertToGifUseCase()
             }
         }
     }
@@ -150,4 +153,6 @@ class ActionFragment : Fragment() {
     private fun perfomSplitVideoUseCase() = SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(10)
 
     private fun perfomResizeVideoUseCase() = ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
+
+    private fun performConvertToGifUseCase() = ConvertToGifUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 }

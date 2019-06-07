@@ -11,15 +11,15 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoToGif private constructor(private val context: Context) {
+class FFmpegVideoToGif(private val context: Context) {
 
     private var videoUri: Uri? = null
     private var callback: FFMpegCallback? = null
     private var outputPath = ""
     private var outputFileName = ""
-    private var duration = ""
-    private var fps = ""
-    private var scale = ""
+    private var duration = 0
+    private var fps = 0
+    private var scale = 0
 
     fun setVideoUri(videoUri: Uri): FFmpegVideoToGif {
         this.videoUri = videoUri
@@ -41,22 +41,22 @@ class FFmpegVideoToGif private constructor(private val context: Context) {
         return this
     }
 
-    fun setDuration(output: String): FFmpegVideoToGif {
+    fun setDuration(output: Int): FFmpegVideoToGif {
         this.duration = output
         return this
     }
 
-    fun setFPS(output: String): FFmpegVideoToGif {
+    fun setFPS(output: Int): FFmpegVideoToGif {
         this.fps = output
         return this
     }
 
-    fun setScale(output: String): FFmpegVideoToGif {
+    fun setScale(output: Int): FFmpegVideoToGif {
         this.scale = output
         return this
     }
 
-    fun create() {
+    fun execute() {
         val outputLocation = getConvertedFile(outputPath, outputFileName)
         val path = getPath(context, videoUri!!)
 
@@ -65,14 +65,29 @@ class FFmpegVideoToGif private constructor(private val context: Context) {
             path,
             "-vf",
             "scale=" + scale + ":-1", "-t",
-            duration,
+            5.toString(),
             "-r",
             fps,
             outputLocation.path
         )
 
+        val command = arrayOf(
+            "-i",
+            path,
+            "-r",
+            "$fps",
+            "-ss",
+            1.toString(),
+            "-t",
+            5.toString(),
+            "-vf",
+            "scale=$scale",
+            "agif_r${fps}_d20_$scale.gif",
+            "-hide_banner"
+        )
+
         try {
-            FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
+            FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
                 override fun onStart() {}
 
                 override fun onProgress(message: String?) {
