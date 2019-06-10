@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
+import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
+import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
 
 import kotlinx.android.synthetic.main.fragment_action.*
@@ -140,19 +142,54 @@ class ActionFragment : Fragment() {
 
     private fun performCutAction() = navController.navigate(R.id.cutFragment)
 
-    private fun performSlowMotionAction() = SlowMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    private fun performSlowMotionAction() =
+        SlowMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun performFastMotionAction() = FastMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    private fun performFastMotionAction() =
+        FastMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
+    //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
+    private fun performExtractImagesAction() {
+        val dialog = SpecifyActionDialog.newInstance("Set extract interval",  "Interval")
+        dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
+            override fun onConfirmClicked(input: String) {
+                ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toDouble())
+            }
+        }
+        dialog.show(childFragmentManager, "tag")
+    }
 
-    private fun performExtractAudioAction() = ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    private fun performExtractAudioAction() =
+        ExtractAudioUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performReverseUseCase() = ReverseUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-    private fun perfomSplitVideoUseCase() = SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(10)
+//    private fun perfomSplitVideoUseCase() =
+//        SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(10)
 
-    private fun perfomResizeVideoUseCase() = ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
+    private fun perfomSplitVideoUseCase() {
+        val dialog = SpecifyActionDialog.newInstance("Set split interval", "Interval")
+        dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
+            override fun onConfirmClicked(input: String) {
+                SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toInt())
+            }
+        }
+        dialog.show(childFragmentManager, "tag")
+    }
 
-    private fun performConvertToGifUseCase() = ConvertToGifUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+//    private fun perfomResizeVideoUseCase() =
+//        ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
+
+    private fun perfomResizeVideoUseCase() {
+        val dialog = SpecifyActionDialog.newInstance("Set output resolution", "Resolution")
+        dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
+            override fun onConfirmClicked(input: String) {
+                ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
+            }
+        }
+        dialog.show(childFragmentManager, "tag")
+    }
+
+    private fun performConvertToGifUseCase() =
+        ConvertToGifUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 }
