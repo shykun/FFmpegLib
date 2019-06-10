@@ -10,16 +10,18 @@
             android:layout_marginTop="4dp"
             tool:src="@drawable/ic_cut_white_24dp"
             android:id="@+id/optionIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"/>
 
     <TextView
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:id="@+id/optionName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:layout_height="wrap_content"
             tool:text="cut"
-            android:layout_gravity="center_horizontal"/>
+            android:gravity="center"/>
 
 </LinearLayout>
