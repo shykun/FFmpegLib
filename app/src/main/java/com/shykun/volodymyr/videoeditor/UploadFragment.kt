@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_upload.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -50,9 +51,13 @@ class UploadFragment : Fragment() {
 
     private fun setUploadClickListener() {
         uploadButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= 23)
-                getUploadPermission()
-            uploadVideo()
+            RxPermissions(this)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe { granted ->
+                    if (granted) {
+                        uploadVideo()
+                    }
+                }
         }
     }
 
@@ -68,26 +73,12 @@ class UploadFragment : Fragment() {
 
     }
 
-    private fun getUploadPermission() {
-        val hasReadExternalStoragePermission =
-            ActivityCompat.checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (hasReadExternalStoragePermission != PackageManager.PERMISSION_GRANTED)
-
-            if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    activity!!,
-                    Array(1) { android.Manifest.permission.READ_EXTERNAL_STORAGE }, 1
-                )
-            }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
-                viewModel.selectedVideoUri.value =  data!!.data
+                viewModel.selectedVideoUri.value = data!!.data
 
                 navController.navigate(R.id.actionFragment)
             }
