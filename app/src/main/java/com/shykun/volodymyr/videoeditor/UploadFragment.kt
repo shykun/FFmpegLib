@@ -66,7 +66,7 @@ class UploadFragment : Fragment() {
             val intent = Intent()
             intent.type = "video/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO)
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.title_select_video)), REQUEST_TAKE_GALLERY_VIDEO)
         } catch (e: Exception) {
 
         }

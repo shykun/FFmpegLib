@@ -31,7 +31,7 @@ class ActionFragment : Fragment() {
 
     private lateinit var updateHandler: Handler
     private lateinit var updateRunnable: Runnable
-    private lateinit var fFmpegExecutor: FFmpegExecutor
+    private lateinit var ffmpegExecutor: FFmpegExecutor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class ActionFragment : Fragment() {
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
 //        fFmpegExecutor = (activity as MainActivity).ffmpeg
-        actionAdapter = ActionAdapter()
+        actionAdapter = ActionAdapter(getActions(context!!))
 
     }
 
@@ -68,9 +68,7 @@ class ActionFragment : Fragment() {
         setupPlayPauseListener()
         videoView.setOnPreparedListener {
             seekBar.max = videoView.duration
-            val minutes = videoView.duration / 60000
-            val seconds = (videoView.duration % 60000) / 1000
-            endTime.text = "$minutes : $seconds"
+            endTime.text =  getFormattedTime(videoView.duration)
 
             it.setOnSeekCompleteListener {
                 if (!videoView.isPlaying)
@@ -97,9 +95,7 @@ class ActionFragment : Fragment() {
             override fun run() {
                 if (videoView.isPlaying)
                     seekBar.progress = videoView.currentPosition
-                val minute = videoView.currentPosition / 60000
-                val second = (videoView.currentPosition % 60000) / 1000
-                startTime.text = "$minute : $second"
+                startTime.text = getFormattedTime(videoView.currentPosition)
                 updateHandler.postDelayed(this, 16)
             }
         }

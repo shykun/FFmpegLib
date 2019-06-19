@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tool="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <VideoView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/seekBar"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintDimensionRatio="W, 16:9"
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"/>
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/seekBar"
+        app:layout_constraintDimensionRatio="W, 16:9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
 
     <SeekBar
-            app:layout_constraintTop_toBottomOf="@id/videoView"
-            app:layout_constraintBottom_toTopOf="@id/actionsList"
-            android:id="@+id/seekBar"
-            android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="1"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/startTime"
-            app:layout_constraintRight_toLeftOf="@id/endTime"/>
-
-    <TextView android:id="@+id/startTime"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              tool:text="0:01"
-              app:layout_constraintRight_toLeftOf="@id/seekBar"
-              app:layout_constraintTop_toBottomOf="@id/videoView"
-              app:layout_constraintLeft_toLeftOf="parent"
-              android:layout_marginStart="16dp"/>
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/actionsList"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        app:layout_constraintLeft_toRightOf="@id/startTime"
+        app:layout_constraintRight_toLeftOf="@id/endTime"
+        app:layout_constraintTop_toBottomOf="@id/videoView" />
 
     <TextView
-            android:id="@+id/endTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tool:text="1:23"
-            app:layout_constraintTop_toBottomOf="@id/videoView"
-            app:layout_constraintLeft_toRightOf="@id/seekBar"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginEnd="16dp"/>
+        android:id="@+id/startTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoView"
+        tool:text="0:01" />
+
+    <TextView
+        android:id="@+id/endTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoView"
+        tool:text="1:23" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-            app:layout_constraintTop_toBottomOf="@id/seekBar"
-            android:id="@+id/actionsList"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+        android:id="@+id/actionsList"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

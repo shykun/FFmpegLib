@@ -9,7 +9,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_option.view.*
 
 
-class ActionAdapter : RecyclerView.Adapter<ActionViewHolder>() {
+class ActionAdapter(private val actions: Array<Action>) : RecyclerView.Adapter<ActionViewHolder>() {
 
     private val clickSubject = PublishSubject.create<Action>()
     val clickObservable: Observable<Action> = clickSubject
