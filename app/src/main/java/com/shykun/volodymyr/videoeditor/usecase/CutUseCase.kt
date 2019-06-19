@@ -11,9 +11,7 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoTrimmer
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class CutUseCase(private val videoUri: Uri, private val context: Context) {
-
-    val progressDialog = getProgressDialog(context)
+class CutUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute(startMs: Int, endMs: Int) {
         FFmpegVideoTrimmer(context)

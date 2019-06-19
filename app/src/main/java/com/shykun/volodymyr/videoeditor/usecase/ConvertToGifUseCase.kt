@@ -9,11 +9,9 @@ import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegVideoToGif
 import com.shykun.volodymyr.ffmpeglib.getOutputPath
-import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class ConvertToGifUseCase(private val videoUri: Uri, private val context: Context) {
-    val progressDialog = getProgressDialog(context)
+class ConvertToGifUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute() {
         FFmpegVideoToGif(context)

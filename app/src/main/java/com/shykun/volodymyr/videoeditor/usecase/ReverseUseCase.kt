@@ -13,8 +13,7 @@ import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
 
-class ReverseUseCase(private val videoUri: Uri, private val context: Context) {
-    val progressDialog = getProgressDialog(context)
+class ReverseUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute() {
         FFmpegVideoReverser(context)

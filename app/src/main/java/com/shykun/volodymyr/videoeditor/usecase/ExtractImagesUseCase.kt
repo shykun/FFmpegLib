@@ -11,9 +11,7 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegVideoToImages
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class ExtractImagesUseCase(private val videoUri: Uri, private val context: Context) {
-
-    val progressDialog = getProgressDialog(context)
+class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute(interval: Double) {
         FFmpegVideoToImages(context)

@@ -13,8 +13,7 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoSlowMotion
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class SlowMotionUseCase(private val videoUri: Uri, private val context: Context) {
-    val progressDialog = getProgressDialog(context)
+class SlowMotionUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute() {
         FFmpegVideoSlowMotion(context)
