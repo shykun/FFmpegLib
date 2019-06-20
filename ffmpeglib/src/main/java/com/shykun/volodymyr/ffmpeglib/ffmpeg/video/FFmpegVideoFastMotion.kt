@@ -14,7 +14,7 @@ import java.io.IOException
 
 class FFmpegVideoFastMotion(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
-    private var coefficient = 1.0
+    private var coefficient = 0.5
 
     fun setCoefficient(coefficient: Double) {
         this.coefficient = 1.0 / coefficient
@@ -29,7 +29,7 @@ class FFmpegVideoFastMotion(context: Context, videoUri: Uri, callback: FFMpegCal
             "-i",
             path,
             "-filter_complex",
-            "[0:v]setpts=$coefficient*PTS[v];[0:a]atempo=2.0[a]",
+            "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]",
             "-map",
             "[v]",
             "-map",

@@ -14,7 +14,7 @@ import java.io.IOException
 
 class FFmpegVideoSlowMotion(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
-    private var coefficient = 1.0
+    private var coefficient = 2.0
 
     fun setCoefficient(coefficient: Double) {
         this.coefficient = coefficient
