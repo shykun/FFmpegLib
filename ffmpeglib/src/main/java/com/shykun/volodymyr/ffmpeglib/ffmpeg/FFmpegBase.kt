@@ -76,9 +76,9 @@ abstract class FFmpegBase(protected val context: Context) {
                 }
             })
         } catch (e: Exception) {
-            callback!!.onFailure(e)
+            callback?.onFailure(e)
         } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback!!.onNotAvailable(e2)
+            callback?.onNotAvailable(e2)
         }
     }
 }
