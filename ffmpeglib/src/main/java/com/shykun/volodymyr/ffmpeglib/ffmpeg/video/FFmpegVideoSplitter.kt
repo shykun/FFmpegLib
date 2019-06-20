@@ -7,49 +7,26 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
-class FFmpegVideoSplitter(private val context: Context) {
+class FFmpegVideoSplitter(context: Context) : FFmpegBase(context) {
 
-    private var videoUri: Uri? = null
-    private var callback: FFMpegCallback? = null
-    private var outputPath = ""
-    private var outputFileName = ""
-    private var segementTime = 0
-
-    fun setVideoUri(videoUri: Uri): FFmpegVideoSplitter {
-        this.videoUri = videoUri
-        return this
-    }
-
-    fun setCallback(callback: FFMpegCallback): FFmpegVideoSplitter {
-        this.callback = callback
-        return this
-    }
-
-    fun setOutputPath(output: String): FFmpegVideoSplitter {
-        this.outputPath = output
-        return this
-    }
-
-    fun setOutputFileName(output: String): FFmpegVideoSplitter {
-        this.outputFileName = output
-        return this
-    }
+    private var segmentTime = 0
 
     fun setSegmentTime(segmentTimeInSec: Int): FFmpegVideoSplitter {
-        this.segementTime = segmentTimeInSec
+        this.segmentTime = segmentTimeInSec
         return this
     }
 
-    fun execute() {
-        val outputLocation = getConvertedFile(outputPath, "")
+    override fun getCommand(): Array<String?> {
+        val outputLocation = getOutputLocation()
         val path = getPath(context, videoUri!!)
 
-        val command = arrayOf(
+        return arrayOf(
             "-i",
             path,
             "-c",
@@ -57,41 +34,16 @@ class FFmpegVideoSplitter(private val context: Context) {
             "-map",
             "0",
             "-segment_time",
-            segementTime.toString(),
+            segmentTime.toString(),
             "-f",
             "segment",
             outputLocation.path + File.separator + outputFileName + "%03d.mp4"
         )
+    }
 
-        try {
-            FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {}
+    override fun getContentType(): ContentType = ContentType.MULTIPLE_VIDEO
 
-                override fun onProgress(message: String?) {
-                    callback?.onProgress(message!!)
-                }
-
-                override fun onSuccess(message: String?) {
-                    callback?.onSuccess(outputLocation, ContentType.MULTIPLE_VIDEO)
-
-                }
-
-                override fun onFailure(message: String?) {
-                    if (outputLocation.exists()) {
-                        outputLocation.delete()
-                    }
-                    callback?.onFailure(IOException(message))
-                }
-
-                override fun onFinish() {
-                    callback?.onFinish()
-                }
-            })
-        } catch (e: Exception) {
-            callback!!.onFailure(e)
-        } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback!!.onNotAvailable(e2)
-        }
-
+    override fun getOutputLocation(): File {
+        return getConvertedFile(outputPath, "")
     }
 }

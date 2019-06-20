@@ -7,47 +7,24 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoFastMotion(private val context: Context) {
+class FFmpegVideoFastMotion(context: Context) : FFmpegBase(context) {
 
-    private var videoUri: Uri? = null
-    private var callback: FFMpegCallback? = null
-    private var outputPath = ""
-    private var outputFileName = ""
     private var coefficient = 1.0
-
-    fun setVideoUri(videoUri: Uri): FFmpegVideoFastMotion {
-        this.videoUri = videoUri
-        return this
-    }
-
-    fun setCallback(callback: FFMpegCallback): FFmpegVideoFastMotion {
-        this.callback = callback
-        return this
-    }
-
-    fun setOutputPath(output: String): FFmpegVideoFastMotion {
-        this.outputPath = output
-        return this
-    }
-
-    fun setOutputFileName(output: String): FFmpegVideoFastMotion {
-        this.outputFileName = output
-        return this
-    }
 
     fun setCoefficient(coefficient: Double) {
         this.coefficient = 1.0 / coefficient
     }
 
-    fun execute() {
-        val outputLocation = getConvertedFile(outputPath, outputFileName)
+    override fun getCommand(): Array<String?> {
+        val outputLocation = getOutputLocation()
         val path = getPath(context, videoUri!!)
 
-        val command = arrayOf(
+        return arrayOf(
             "-y",
             "-i",
             path,
@@ -65,38 +42,7 @@ class FFmpegVideoFastMotion(private val context: Context) {
             "mpeg4",
             outputLocation.path
         )
-
-        try {
-            FFmpeg.getInstance(context).execute(command, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {
-                    callback?.onStart()
-                }
-
-                override fun onProgress(message: String?) {
-                    callback?.onProgress(message!!)
-                }
-
-                override fun onSuccess(message: String?) {
-                    callback?.onSuccess(outputLocation, ContentType.VIDEO)
-
-                }
-
-                override fun onFailure(message: String?) {
-                    if (outputLocation.exists()) {
-                        outputLocation.delete()
-                    }
-                    callback?.onFailure(IOException(message))
-                }
-
-                override fun onFinish() {
-                    callback?.onFinish()
-                }
-            })
-        } catch (e: Exception) {
-            callback?.onFailure(e)
-        } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback?.onNotAvailable(e2)
-        }
-
     }
+
+    override fun getContentType(): ContentType = ContentType.VIDEO
 }

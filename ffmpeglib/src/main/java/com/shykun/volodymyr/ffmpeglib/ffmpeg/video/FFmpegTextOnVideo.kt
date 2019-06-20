@@ -1,23 +1,17 @@
 package com.shykun.volodymyr.ffmpeglib.ffmpeg.video
 
 import android.content.Context
-import android.net.Uri
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.getConvertedFile
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
-class FFmpegTextOnVideo(private val context: Context) {
+class FFmpegTextOnVideo(context: Context) : FFmpegBase(context) {
 
-    private var videoUri: Uri? = null
-    private var callback: FFMpegCallback? = null
-    private var outputPath = ""
-    private var outputFileName = ""
     private var font: File? = null
     private var text: String? = null
     private var position: String? = null
@@ -30,25 +24,6 @@ class FFmpegTextOnVideo(private val context: Context) {
     var BORDER_FILLED = ": box=1: boxcolor=black@0.5:boxborderw=5"
     var BORDER_EMPTY = ""
 
-    fun setVideoUri(videoUri: Uri): FFmpegTextOnVideo {
-        this.videoUri = videoUri
-        return this
-    }
-
-    fun setCallback(callback: FFMpegCallback): FFmpegTextOnVideo {
-        this.callback = callback
-        return this
-    }
-
-    fun setOutputPath(output: String): FFmpegTextOnVideo {
-        this.outputPath = output
-        return this
-    }
-
-    fun setOutputFileName(output: String): FFmpegTextOnVideo {
-        this.outputFileName = output
-        return this
-    }
 
     fun setFont(output: File): FFmpegTextOnVideo {
         this.font = output
@@ -83,11 +58,11 @@ class FFmpegTextOnVideo(private val context: Context) {
         return this
     }
 
-    fun execute() {
-        val outputLocation = getConvertedFile(outputPath, outputFileName)
+    override fun getCommand(): Array<String?> {
+        val outputLocation = getOutputLocation()
         val path = getPath(context, videoUri!!)
 
-        val cmd = arrayOf(
+        return arrayOf(
             "-i",
             path,
             "-vf",
@@ -100,38 +75,9 @@ class FFmpegTextOnVideo(private val context: Context) {
             "+faststart",
             outputLocation.path
         )
-
-        try {
-            FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {}
-
-                override fun onProgress(message: String?) {
-                    callback!!.onProgress(message!!)
-                }
-
-                override fun onSuccess(message: String?) {
-                    callback!!.onSuccess(outputLocation, ContentType.VIDEO)
-
-                }
-
-                override fun onFailure(message: String?) {
-                    if (outputLocation.exists()) {
-                        outputLocation.delete()
-                    }
-                    callback!!.onFailure(IOException(message))
-                }
-
-                override fun onFinish() {
-                    callback!!.onFinish()
-                }
-            })
-        } catch (e: Exception) {
-            callback!!.onFailure(e)
-        } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback!!.onNotAvailable(e2)
-        }
-
     }
+
+    override fun getContentType(): ContentType = ContentType.VIDEO
 
     companion object {
         var POSITION_BOTTOM_RIGHT = "x=w-tw-10:y=h-th-10"

@@ -17,10 +17,10 @@ class ResizeVideoUseCase(private val videoUri: Uri, context: Context) : BaseUseC
 
     fun execute(outputSize: String) {
         FFmpegVideoResizer(context)
+            .setSize(outputSize)
             .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "video")
             .setOutputFileName("splitted_video" + System.currentTimeMillis() + ".mp4")
-            .setSize(outputSize)
             .setCallback(object : FFMpegCallback {
                 override fun onStart() {
                     progressDialog.show()

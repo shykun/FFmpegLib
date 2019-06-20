@@ -15,9 +15,9 @@ class CutUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(cont
 
     fun execute(startMs: Int, endMs: Int) {
         FFmpegVideoTrimmer(context)
-            .setVideoUri(videoUri)
             .setStartTime(startMs)
             .setEndTime(endMs)
+            .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "video")
             .setOutputFileName("trimmed_" + System.currentTimeMillis() + ".mp4")
             .setCallback(object : FFMpegCallback {

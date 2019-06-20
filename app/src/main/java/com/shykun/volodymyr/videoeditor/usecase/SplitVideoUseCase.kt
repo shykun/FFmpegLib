@@ -17,10 +17,10 @@ class SplitVideoUseCase(private val videoUri: Uri, context: Context) : BaseUseCa
 
     fun execute(segmentTimeInSec: Int) {
         FFmpegVideoSplitter(context)
+            .setSegmentTime(segmentTimeInSec)
             .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "video")
             .setOutputFileName("splitted_video" + System.currentTimeMillis() + ".mp4")
-            .setSegmentTime(segmentTimeInSec)
             .setCallback(object : FFMpegCallback {
                 override fun onStart() {
                     progressDialog.show()
