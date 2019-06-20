@@ -6,11 +6,12 @@ import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegAudioTrimmer(context: Context) : FFmpegBase(context) {
+class FFmpegAudioTrimmer(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     private var audioUri: Uri? = null
     private var startTime = 0
     private var endTime = 0

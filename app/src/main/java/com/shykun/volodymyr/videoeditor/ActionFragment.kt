@@ -31,7 +31,6 @@ class ActionFragment : Fragment() {
 
     private lateinit var updateHandler: Handler
     private lateinit var updateRunnable: Runnable
-    private lateinit var ffmpegExecutor: FFmpegExecutor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +39,7 @@ class ActionFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
-//        fFmpegExecutor = (activity as MainActivity).ffmpeg
         actionAdapter = ActionAdapter(getActions(context!!))
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -123,15 +120,15 @@ class ActionFragment : Fragment() {
         actionAdapter.clickObservable.subscribe {
 
             when (it.name) {
-                "Cut" -> performCutAction()
-                "Slow Motion" -> performSlowMotionAction()
-                "Fast Motion" -> performFastMotionAction()
-                "Extract Images" -> performExtractImagesAction()
-                "Extract Audio" -> performExtractAudioAction()
-                "Reverse Video" -> performReverseUseCase()
-                "Split Video" -> perfomSplitVideoUseCase()
-                "Resize" -> perfomResizeVideoUseCase()
-                "Convert to GIF" -> performConvertToGifUseCase()
+                getString(R.string.action_cut) -> performCutAction()
+                getString(R.string.action_slow_motion) -> performSlowMotionAction()
+                getString(R.string.action_fast_motion) -> performFastMotionAction()
+                getString(R.string.action_extract_images) -> performExtractImagesAction()
+                getString(R.string.action_extract_audio) -> performExtractAudioAction()
+                getString(R.string.action_reverse_video) -> performReverseUseCase()
+                getString(R.string.action_split_video) -> performSplitVideoUseCase()
+                getString(R.string.action_resize) -> performResizeVideoUseCase()
+                getString(R.string.action_convert_to_gif) -> performConvertToGifUseCase()
             }
         }
     }
@@ -146,7 +143,7 @@ class ActionFragment : Fragment() {
 
     //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
     private fun performExtractImagesAction() {
-        val dialog = SpecifyActionDialog.newInstance("Set extract interval",  "Interval")
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_extract_interval),  getString(R.string.interval))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toDouble())
@@ -160,11 +157,8 @@ class ActionFragment : Fragment() {
 
     private fun performReverseUseCase() = ReverseUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
-//    private fun perfomSplitVideoUseCase() =
-//        SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(10)
-
-    private fun perfomSplitVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance("Set split interval", "Interval")
+    private fun performSplitVideoUseCase() {
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_split_interval), getString(R.string.interval))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toInt())
@@ -173,11 +167,8 @@ class ActionFragment : Fragment() {
         dialog.show(childFragmentManager, "tag")
     }
 
-//    private fun perfomResizeVideoUseCase() =
-//        ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
-
-    private fun perfomResizeVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance("Set output resolution", "Resolution")
+    private fun performResizeVideoUseCase() {
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_output_resolution), getString(R.string.resolution))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")

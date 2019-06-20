@@ -12,7 +12,7 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoResizer(context: Context) : FFmpegBase(context) {
+class FFmpegVideoResizer(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     private var size = ""
 
     fun setSize(output: String): FFmpegVideoResizer {
@@ -22,7 +22,7 @@ class FFmpegVideoResizer(context: Context) : FFmpegBase(context) {
 
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
-        val path = getPath(context, videoUri!!)
+        val path = getPath(context, videoUri)
 
         return arrayOf("-i", path, "-vf", "scale=$size", outputLocation.path, "-hide_banner")
     }

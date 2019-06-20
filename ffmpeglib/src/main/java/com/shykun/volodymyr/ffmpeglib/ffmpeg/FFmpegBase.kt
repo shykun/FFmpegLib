@@ -10,9 +10,11 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import java.io.File
 import java.io.IOException
 
-abstract class FFmpegBase(protected val context: Context) {
-    protected var videoUri: Uri? = null
-    protected var callback: FFMpegCallback? = null
+abstract class FFmpegBase(
+    protected val context: Context,
+    protected val videoUri: Uri,
+    protected val callback: FFMpegCallback?
+) {
     protected var outputPath = ""
     protected var outputFileName = ""
 
@@ -20,16 +22,6 @@ abstract class FFmpegBase(protected val context: Context) {
     abstract fun getCommand() : Array<String?>
 
     abstract fun getContentType(): ContentType
-
-    fun setVideoUri(videoUri: Uri): FFmpegBase {
-        this.videoUri = videoUri
-        return this
-    }
-
-    fun setCallback(callback: FFMpegCallback): FFmpegBase {
-        this.callback = callback
-        return this
-    }
 
     fun setOutputPath(output: String): FFmpegBase {
         this.outputPath = output
@@ -61,7 +53,6 @@ abstract class FFmpegBase(protected val context: Context) {
 
                 override fun onSuccess(message: String?) {
                     callback?.onSuccess(outputLocation, getContentType())
-
                 }
 
                 override fun onFailure(message: String?) {

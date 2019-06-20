@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.madhavanmalolan.android:ffmpegandroidlibrary:0.0.4'
-    implementation 'com.writingminds:FFmpegAndroid:0.3.2'
+    api 'com.writingminds:FFmpegAndroid:0.3.2'
     implementation 'commons-io:commons-io:2.5'
 }
 repositories {

@@ -12,10 +12,10 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoReverser(context: Context) : FFmpegBase(context) {
+class FFmpegVideoReverser(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
-        val path = getPath(context, videoUri!!)
+        val path = getPath(context, videoUri)
 
         return arrayOf(
             "-i",

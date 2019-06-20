@@ -16,4 +16,10 @@
     <string name="action_split_video">Split Video</string>
     <string name="action_resize">Resize</string>
     <string name="action_convert_to_gif">Convert to GIF</string>
+
+    <string name="set_extract_interval">Set extract interval</string>
+    <string name="set_split_interval">Set split interval</string>
+    <string name="set_output_resolution">Set output resolution</string>
+    <string name="interval">Interval</string>
+    <string name="resolution">Resolution</string>
 </resources>

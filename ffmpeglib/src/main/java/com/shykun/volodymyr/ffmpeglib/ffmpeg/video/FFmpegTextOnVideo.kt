@@ -1,16 +1,18 @@
 package com.shykun.volodymyr.ffmpeglib.ffmpeg.video
 
 import android.content.Context
+import android.net.Uri
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
-class FFmpegTextOnVideo(context: Context) : FFmpegBase(context) {
+class FFmpegTextOnVideo(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var font: File? = null
     private var text: String? = null
@@ -60,7 +62,7 @@ class FFmpegTextOnVideo(context: Context) : FFmpegBase(context) {
 
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
-        val path = getPath(context, videoUri!!)
+        val path = getPath(context, videoUri)
 
         return arrayOf(
             "-i",

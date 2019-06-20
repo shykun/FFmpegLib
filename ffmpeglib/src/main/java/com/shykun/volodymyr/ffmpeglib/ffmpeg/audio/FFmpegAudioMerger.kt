@@ -6,11 +6,12 @@ import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegAudioMerger(context: Context) : FFmpegBase(context) {
+class FFmpegAudioMerger(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var audio1Uri: Uri? = null
     private var audio2Uri: Uri? = null

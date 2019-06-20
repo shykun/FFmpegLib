@@ -13,7 +13,7 @@ import com.shykun.volodymyr.ffmpeglib.getPath
 import com.shykun.volodymyr.ffmpeglib.refreshGallery
 import java.io.IOException
 
-class FFmpegVideoTrimmer(context: Context) : FFmpegBase(context) {
+class FFmpegVideoTrimmer(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var startTime = 0
     private var endTime = 0
@@ -30,7 +30,7 @@ class FFmpegVideoTrimmer(context: Context) : FFmpegBase(context) {
 
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
-        val path = getPath(context, videoUri!!)
+        val path = getPath(context, videoUri)
 
         return arrayOf(
             "-i",

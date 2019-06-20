@@ -2,24 +2,18 @@ package com.shykun.volodymyr.videoeditor
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException
 import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
 import com.shykun.volodymyr.videoeditor.di.AppComponent
 import com.shykun.volodymyr.videoeditor.di.DaggerAppComponent
 import com.shykun.volodymyr.videoeditor.di.NavigationModule
-import kotlinx.android.synthetic.main.fragment_action.*
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.Screen
 import javax.inject.Inject
 
 

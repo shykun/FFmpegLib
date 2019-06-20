@@ -14,23 +14,17 @@ import java.io.File
 class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute(interval: Double) {
-        FFmpegVideoToImages(context)
-            .setInterval(interval)
-            .setVideoUri(videoUri)
-            .setOutputPath(getOutputPath() + "images")
-            .setOutputFileName("images")
-            .setCallback(object : FFMpegCallback {
-                override fun onStart() {
-                    progressDialog.show()
-                }
+        FFmpegVideoToImages(context, videoUri, object : FFMpegCallback {
+            override fun onStart() {
+                progressDialog.show()
+            }
 
-                override fun onProgress(progress: String) {
-                    progressDialog.setMessage("progress : $progress")
-                }
+            override fun onProgress(progress: String) {
+                progressDialog.setMessage("progress : $progress")
+            }
 
-                override fun onSuccess(convertedFile: File, contentType: ContentType) {
-                    Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-                    progressDialog.dismiss()
+            override fun onSuccess(convertedFile: File, contentType: ContentType) {
+                Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
 //                    val intent = Intent(Intent.ACTION_VIEW)
 //                    val apkURI = FileProvider.getUriForFile(
 //                        context,
@@ -39,19 +33,23 @@ class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUs
 //                    )
 //                    intent.setDataAndType(apkURI, "*/*")
 //                    context.startActivity(intent)
-                }
+            }
 
-                override fun onFailure(error: Exception) {
-                    Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
-                }
+            override fun onFailure(error: Exception) {
+                Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
+            }
 
-                override fun onNotAvailable(error: Exception) {
-                    Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
-                }
+            override fun onNotAvailable(error: Exception) {
+                Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
+            }
 
-                override fun onFinish() {
-                }
-            })
+            override fun onFinish() {
+                progressDialog.dismiss()
+            }
+        })
+            .setInterval(interval)
+            .setOutputPath(getOutputPath() + "images")
+            .setOutputFileName("images")
             .execute()
     }
 }

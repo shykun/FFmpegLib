@@ -13,7 +13,7 @@ import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
-class FFmpegVideoSplitter(context: Context) : FFmpegBase(context) {
+class FFmpegVideoSplitter(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var segmentTime = 0
 
@@ -24,7 +24,7 @@ class FFmpegVideoSplitter(context: Context) : FFmpegBase(context) {
 
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
-        val path = getPath(context, videoUri!!)
+        val path = getPath(context, videoUri)
 
         return arrayOf(
             "-i",
