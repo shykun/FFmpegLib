@@ -6,27 +6,17 @@ import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.shykun.volodymyr.ffmpeglib.ContentType
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.getConvertedFile
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegAudioTrimmer private constructor(private val context: Context) {
-
+class FFmpegAudioTrimmer(context: Context) : FFmpegBase(context) {
     private var audioUri: Uri? = null
-    private var callback: FFMpegCallback? = null
     private var startTime = 0
     private var endTime = 0
-    private var outputPath = ""
-    private var outputFileName = ""
 
     fun setAudioUri(audioUri: Uri): FFmpegAudioTrimmer {
         this.audioUri = audioUri
-        return this
-    }
-
-    fun setCallback(callback: FFMpegCallback): FFmpegAudioTrimmer {
-        this.callback = callback
         return this
     }
 
@@ -40,21 +30,11 @@ class FFmpegAudioTrimmer private constructor(private val context: Context) {
         return this
     }
 
-    fun setOutputPath(output: String): FFmpegAudioTrimmer {
-        this.outputPath = output
-        return this
-    }
-
-    fun setOutputFileName(output: String): FFmpegAudioTrimmer {
-        this.outputFileName = output
-        return this
-    }
-
-    fun execute() {
-        val outputLocation = getConvertedFile(outputPath, outputFileName)
+    override fun getCommand(): Array<String?> {
+        val outputLocation = getOutputLocation()
         val audioPath = getPath(context, audioUri!!)
 
-        val cmd = arrayOf(
+        return arrayOf(
             "-i",
             audioPath,
             "-ss",
@@ -65,35 +45,7 @@ class FFmpegAudioTrimmer private constructor(private val context: Context) {
             "copy",
             outputLocation.path
         )
-
-        try {
-            FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
-                override fun onStart() {}
-
-                override fun onProgress(message: String?) {
-                    callback?.onProgress(message!!)
-                }
-
-                override fun onSuccess(message: String?) {
-                    callback?.onSuccess(outputLocation, ContentType.AUDIO)
-                }
-
-                override fun onFailure(message: String?) {
-                    if (outputLocation.exists()) {
-                        outputLocation.delete()
-                    }
-                    callback?.onFailure(IOException(message))
-                }
-
-                override fun onFinish() {
-                    callback?.onFinish()
-                }
-            })
-
-        } catch (e: Exception) {
-            callback?.onFailure(e)
-        } catch (e2: FFmpegCommandAlreadyRunningException) {
-            callback?.onNotAvailable(e2)
-        }
     }
+
+    override fun getContentType(): ContentType = ContentType.AUDIO
 }

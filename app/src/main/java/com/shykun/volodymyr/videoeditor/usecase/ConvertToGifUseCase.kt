@@ -15,9 +15,9 @@ class ConvertToGifUseCase(private val videoUri: Uri, context: Context) : BaseUse
 
     fun execute() {
         FFmpegVideoToGif(context)
-            .setVideoUri(videoUri)
             .setFPS(30)
             .setScale(500)
+            .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "video")
             .setOutputFileName("gif_" + System.currentTimeMillis() + ".mp4")
             .setCallback(object : FFMpegCallback {

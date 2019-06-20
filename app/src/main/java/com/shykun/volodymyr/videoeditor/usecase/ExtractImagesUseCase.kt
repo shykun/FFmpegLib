@@ -15,10 +15,10 @@ class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUs
 
     fun execute(interval: Double) {
         FFmpegVideoToImages(context)
+            .setInterval(interval)
             .setVideoUri(videoUri)
             .setOutputPath(getOutputPath() + "images")
             .setOutputFileName("images")
-            .setInterval(interval)
             .setCallback(object : FFMpegCallback {
                 override fun onStart() {
                     progressDialog.show()
@@ -52,6 +52,6 @@ class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUs
                 override fun onFinish() {
                 }
             })
-            .extract()
+            .execute()
     }
 }
