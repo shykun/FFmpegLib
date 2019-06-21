@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shykun.volodymyr.videoeditor.*
+import com.shykun.volodymyr.videoeditor.adapter.ActionAdapter
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
