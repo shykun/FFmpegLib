@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 import com.shykun.volodymyr.videoeditor.usecase.CutUseCase
 

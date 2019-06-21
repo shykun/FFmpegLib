@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 
 import android.annotation.SuppressLint
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.shykun.volodymyr.videoeditor.*
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
@@ -38,7 +39,8 @@ class ActionFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
-        actionAdapter = ActionAdapter(getActions(context!!))
+        actionAdapter =
+            ActionAdapter(getActions(context!!))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,7 +66,7 @@ class ActionFragment : Fragment() {
         setupPlayPauseListener()
         videoView.setOnPreparedListener {
             seekBar.max = videoView.duration
-            endTime.text =  getFormattedTime(videoView.duration)
+            endTime.text = getFormattedTime(videoView.duration)
 
             it.setOnSeekCompleteListener {
                 if (!videoView.isPlaying)
@@ -152,7 +154,9 @@ class ActionFragment : Fragment() {
 
     //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
     private fun performExtractImagesAction() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_extract_interval),  getString(R.string.interval))
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_extract_interval),  getString(
+            R.string.interval
+        ))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toDouble())
@@ -167,7 +171,9 @@ class ActionFragment : Fragment() {
     private fun performReverseUseCase() = ReverseUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performSplitVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_split_interval), getString(R.string.interval))
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_split_interval), getString(
+            R.string.interval
+        ))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 SplitVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(input.toInt())
@@ -177,7 +183,9 @@ class ActionFragment : Fragment() {
     }
 
     private fun performResizeVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_output_resolution), getString(R.string.resolution))
+        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_output_resolution), getString(
+            R.string.resolution
+        ))
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 ResizeVideoUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute("320:480")
