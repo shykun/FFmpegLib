@@ -1,23 +1,21 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import com.shykun.volodymyr.videoeditor.MainActivity
+import com.shykun.volodymyr.videoeditor.MainViewModel
+import com.shykun.volodymyr.videoeditor.R
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_upload.*
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 private const val REQUEST_TAKE_GALLERY_VIDEO = 100
@@ -66,7 +64,9 @@ class UploadFragment : Fragment() {
             val intent = Intent()
             intent.type = "video/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.title_select_video)), REQUEST_TAKE_GALLERY_VIDEO)
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.title_select_video)),
+                REQUEST_TAKE_GALLERY_VIDEO
+            )
         } catch (e: Exception) {
 
         }

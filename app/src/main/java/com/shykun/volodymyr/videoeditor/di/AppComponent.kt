@@ -1,9 +1,9 @@
 package com.shykun.volodymyr.videoeditor.di
 
-import com.shykun.volodymyr.videoeditor.ActionFragment
-import com.shykun.volodymyr.videoeditor.RangeSeekBarFragment
+import com.shykun.volodymyr.videoeditor.fragment.ActionFragment
+import com.shykun.volodymyr.videoeditor.fragment.RangeSeekBarFragment
 import com.shykun.volodymyr.videoeditor.MainActivity
-import com.shykun.volodymyr.videoeditor.UploadFragment
+import com.shykun.volodymyr.videoeditor.fragment.UploadFragment
 import dagger.Component
 import javax.inject.Singleton
 

@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 import android.app.AlertDialog
 import android.content.Intent

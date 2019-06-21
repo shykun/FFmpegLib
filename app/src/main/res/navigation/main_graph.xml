@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/uploadFragment"
-        android:name="com.shykun.volodymyr.videoeditor.UploadFragment"
+        android:name="com.shykun.volodymyr.videoeditor.fragment.UploadFragment"
         android:label="UploadFragment"
         tools:layout="@layout/fragment_upload" />
 
     <fragment
         android:id="@+id/actionFragment"
-        android:name="com.shykun.volodymyr.videoeditor.ActionFragment"
+        android:name="com.shykun.volodymyr.videoeditor.fragment.ActionFragment"
         android:label="ActionFragment" />
 
     <fragment
         android:id="@+id/cutFragment"
-        android:name="com.shykun.volodymyr.videoeditor.CutFragment"
+        android:name="com.shykun.volodymyr.videoeditor.fragment.CutFragment"
         android:label="CutFragment" />
 </navigation>

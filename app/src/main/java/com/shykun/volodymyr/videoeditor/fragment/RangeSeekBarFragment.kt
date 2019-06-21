@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import com.shykun.volodymyr.videoeditor.BackButtonListener
+import com.shykun.volodymyr.videoeditor.MainActivity
+import com.shykun.volodymyr.videoeditor.MainViewModel
+import com.shykun.volodymyr.videoeditor.R
 import kotlinx.android.synthetic.main.fragment_cut.*
 import javax.inject.Inject
 

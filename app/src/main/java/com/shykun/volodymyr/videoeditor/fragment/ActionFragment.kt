@@ -1,4 +1,4 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.fragment
 
 
 import android.annotation.SuppressLint
@@ -16,8 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+
+import com.shykun.volodymyr.videoeditor.*
+import com.shykun.volodymyr.videoeditor.adapter.ActionAdapter
+
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
@@ -34,6 +39,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
     override fun onStartProcessing() {
         progressDialog.show()
     }
+
     override fun onProgress(progress: String) {
         progressDialog.setMessage("progress : $progress")
     }
@@ -41,15 +47,16 @@ class ActionFragment : Fragment(), FFMpegCallback {
     override fun onSuccess(convertedFile: File, contentType: ContentType) {
         Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
 
-        when(contentType){
+        when (contentType) {
             ContentType.VIDEO,
-            ContentType.MULTIPLE_VIDEO-> {
+            ContentType.MULTIPLE_VIDEO -> {
                 openResult(convertedFile, "video/mp4")
             }
             ContentType.AUDIO -> {
                 openResult(convertedFile, "audio/mp3")
             }
-            else ->{}
+            else -> {
+            }
         }
     }
 
@@ -79,7 +86,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
         (activity as MainActivity).component?.inject(this)
 
         mainViewModel = ViewModelProviders.of(activity!!)
-            .get(MainViewModel::class.java)
+                .get(MainViewModel::class.java)
         actionAdapter = ActionAdapter(getActions(context!!))
 
         progressDialog = getProgressDialog(context!!)
@@ -108,7 +115,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
         setupPlayPauseListener()
         videoView.setOnPreparedListener {
             seekBar.max = videoView.duration
-            endTime.text =  getFormattedTime(videoView.duration)
+            endTime.text = getFormattedTime(videoView.duration)
 
             it.setOnSeekCompleteListener {
                 if (!videoView.isPlaying)
@@ -178,28 +185,37 @@ class ActionFragment : Fragment(), FFMpegCallback {
         }
     }
 
-    private fun performSlowResizeAction(){
+    private fun performSlowResizeAction() {
         SlowMotionResizeUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
     }
 
-    private fun performFastResizeAction(){
+    private fun performFastResizeAction() {
         FastMotionResizeUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
     }
 
     private fun performCutAction() = navController.navigate(R.id.cutFragment)
 
     private fun performSlowMotionAction() =
-        SlowMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+            SlowMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     private fun performFastMotionAction() =
-        FastMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+            FastMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
     private fun performExtractImagesAction() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_extract_interval),  getString(R.string.interval))
+        val dialog = SpecifyActionDialog.newInstance(
+                getString(R.string.set_extract_interval), getString(
+                R.string.interval
+        )
+        )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
-                ExtractImagesUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this@ActionFragment, input.toDouble()).execute()
+                ExtractImagesUseCase(
+                        context!!,
+                        mainViewModel.selectedVideoUri.value!!,
+                        this@ActionFragment,
+                        input.toDouble()
+                ).execute()
 
             }
         }
@@ -207,41 +223,60 @@ class ActionFragment : Fragment(), FFMpegCallback {
     }
 
     private fun performExtractAudioAction() =
-        ExtractAudioUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+            ExtractAudioUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
-    private fun performReverseUseCase() = ReverseUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+    private fun performReverseUseCase() =
+            ReverseUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     private fun performSplitVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_split_interval), getString(R.string.interval))
+        val dialog = SpecifyActionDialog.newInstance(
+                getString(R.string.set_split_interval), getString(
+                R.string.interval
+        )
+        )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
-                SplitVideoUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this@ActionFragment, input.toInt()).execute()
+                SplitVideoUseCase(
+                        context!!,
+                        mainViewModel.selectedVideoUri.value!!,
+                        this@ActionFragment,
+                        input.toInt()
+                ).execute()
             }
         }
         dialog.show(childFragmentManager, "tag")
     }
 
     private fun performResizeVideoUseCase() {
-        val dialog = SpecifyActionDialog.newInstance(getString(R.string.set_output_resolution), getString(R.string.resolution))
+        val dialog = SpecifyActionDialog.newInstance(
+                getString(R.string.set_output_resolution), getString(
+                R.string.resolution
+        )
+        )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 //TODO remove hardcoded value
-                ResizeVideoUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this@ActionFragment, "320:480").execute()
+                ResizeVideoUseCase(
+                        context!!,
+                        mainViewModel.selectedVideoUri.value!!,
+                        this@ActionFragment,
+                        "320:480"
+                ).execute()
             }
         }
         dialog.show(childFragmentManager, "tag")
     }
 
     private fun performConvertToGifUseCase() =
-        ConvertToGifUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+            ConvertToGifUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
-    private fun openResult(convertedFile: File, type: String){
+    private fun openResult(convertedFile: File, type: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         val apkURI = context?.let {
             FileProvider.getUriForFile(
-                it,
-                it.applicationContext
-                    .packageName + ".provider", convertedFile
+                    it,
+                    it.applicationContext
+                            .packageName + ".provider", convertedFile
             )
         }
         intent.setDataAndType(apkURI, type)

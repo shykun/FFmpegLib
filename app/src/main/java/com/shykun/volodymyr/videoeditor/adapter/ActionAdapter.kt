@@ -1,9 +1,11 @@
-package com.shykun.volodymyr.videoeditor
+package com.shykun.volodymyr.videoeditor.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.shykun.volodymyr.videoeditor.Action
+import com.shykun.volodymyr.videoeditor.R
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_option.view.*
