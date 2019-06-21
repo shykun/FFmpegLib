@@ -8,8 +8,10 @@
     <string name="title_progress_dialog">Please wait! This may take a moment</string>
 
     <string name="action_cut">Cut</string>
-    <string name="action_slow_motion">Slow Motion</string>
-    <string name="action_fast_motion">Fast Motion</string>
+    <string name="action_slow_motion">Slow Original</string>
+    <string name="action_fast_motion">Fast Original</string>
+    <string name="action_slow_resize">Slow Resize</string>
+    <string name="action_fast_resize">Fast Resize</string>
     <string name="action_extract_images">Extract Images</string>
     <string name="action_extract_audio">Extract Audio</string>
     <string name="action_reverse_video">Reverse Video</string>

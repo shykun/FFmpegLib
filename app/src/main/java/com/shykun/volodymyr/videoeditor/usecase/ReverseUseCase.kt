@@ -34,7 +34,8 @@ class ReverseUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(
                         .packageName + ".provider", convertedFile
                 )
                 intent.setDataAndType(apkURI, "video/mp4")
-                context.startActivity(intent)                }
+                context.startActivity(intent)
+            }
 
             override fun onFailure(error: Exception) {
                 Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()

@@ -12,13 +12,9 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegVideoSlowMotion(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
+open class FFmpegVideoSlowMotionOriginal(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
-    private var coefficient = 2.0
-
-    fun setCoefficient(coefficient: Double) {
-        this.coefficient = coefficient
-    }
+    var coefficient = 2.0
 
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()
@@ -34,12 +30,6 @@ class FFmpegVideoSlowMotion(context: Context, videoUri: Uri, callback: FFMpegCal
             "[v]",
             "-map",
             "[a]",
-            "-b:v",
-            "2097k",
-            "-r",
-            "60",
-            "-vcodec",
-            "mpeg4",
             outputLocation.path
         )
     }

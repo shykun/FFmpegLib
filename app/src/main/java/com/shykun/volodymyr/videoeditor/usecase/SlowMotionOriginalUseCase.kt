@@ -5,16 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.shykun.volodymyr.ffmpeglib.ContentType
+import com.shykun.volodymyr.ffmpeglib.*
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoSplitter
-import com.shykun.volodymyr.ffmpeglib.getOutputPath
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoSlowMotionOriginal
 import java.io.File
 
-class SplitVideoUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
+class SlowMotionOriginalUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
-    fun execute(segmentTimeInSec: Int) {
-        FFmpegVideoSplitter(context, videoUri, object : FFMpegCallback {
+    fun execute() {
+        FFmpegVideoSlowMotionOriginal(context, videoUri, object : FFMpegCallback {
             override fun onStart() {
                 progressDialog.show()
             }
@@ -47,9 +46,8 @@ class SplitVideoUseCase(private val videoUri: Uri, context: Context) : BaseUseCa
                 progressDialog.dismiss()
             }
         })
-            .setSegmentTime(segmentTimeInSec)
             .setOutputPath(getOutputPath() + "video")
-            .setOutputFileName("splitted_video" + System.currentTimeMillis() + ".mp4")
+            .setOutputFileName("slowmotion" + System.currentTimeMillis() + ".mp4")
             .execute()
     }
 }

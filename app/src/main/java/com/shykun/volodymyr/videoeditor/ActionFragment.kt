@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shykun.volodymyr.ffmpeglib.FFmpegExecutor
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
@@ -129,17 +128,27 @@ class ActionFragment : Fragment() {
                 getString(R.string.action_split_video) -> performSplitVideoUseCase()
                 getString(R.string.action_resize) -> performResizeVideoUseCase()
                 getString(R.string.action_convert_to_gif) -> performConvertToGifUseCase()
+                getString(R.string.action_slow_resize) -> performSlowResizeAction()
+                getString(R.string.action_fast_resize) -> performFastResizeAction()
             }
         }
+    }
+
+    private fun performSlowResizeAction(){
+        SlowMotionResizeUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+    }
+
+    private fun performFastResizeAction(){
+        FastMotionResizeUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
     }
 
     private fun performCutAction() = navController.navigate(R.id.cutFragment)
 
     private fun performSlowMotionAction() =
-        SlowMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+        SlowMotionOriginalUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     private fun performFastMotionAction() =
-        FastMotionUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
+        FastMotionOriginalUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute()
 
     //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
     private fun performExtractImagesAction() {

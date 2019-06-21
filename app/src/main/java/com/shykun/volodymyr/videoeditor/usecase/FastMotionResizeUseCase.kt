@@ -7,15 +7,13 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoFastMotion
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoFastMotionResize
 import com.shykun.volodymyr.ffmpeglib.getOutputPath
-import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class FastMotionUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
-
+class FastMotionResizeUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
     fun execute() {
-        FFmpegVideoFastMotion(context, videoUri, object : FFMpegCallback {
+        FFmpegVideoFastMotionResize(context, videoUri, object : FFMpegCallback {
             override fun onStart() {
                 progressDialog.show()
             }

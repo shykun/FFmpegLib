@@ -5,18 +5,16 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
-import com.shykun.volodymyr.ffmpeglib.*
+import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoFastMotion
-import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoSlowMotion
-import com.shykun.volodymyr.videoeditor.getProgressDialog
+import com.shykun.volodymyr.ffmpeglib.ffmpeg.video.FFmpegVideoFastMotionOriginal
+import com.shykun.volodymyr.ffmpeglib.getOutputPath
 import java.io.File
 
-class SlowMotionUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
+class FastMotionOriginalUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
 
     fun execute() {
-        FFmpegVideoSlowMotion(context, videoUri, object : FFMpegCallback {
+        FFmpegVideoFastMotionOriginal(context, videoUri, object : FFMpegCallback {
             override fun onStart() {
                 progressDialog.show()
             }
@@ -50,7 +48,7 @@ class SlowMotionUseCase(private val videoUri: Uri, context: Context) : BaseUseCa
             }
         })
             .setOutputPath(getOutputPath() + "video")
-            .setOutputFileName("slowmotion" + System.currentTimeMillis() + ".mp4")
+            .setOutputFileName("fastmotion_" + System.currentTimeMillis() + ".mp4")
             .execute()
     }
 }
