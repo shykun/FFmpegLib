@@ -44,7 +44,7 @@ abstract class FFmpegBase(
         try {
             FFmpeg.getInstance(context).execute(cmd, object : ExecuteBinaryResponseHandler() {
                 override fun onStart() {
-                    callback?.onStart()
+                    callback?.onStartProcessing()
                 }
 
                 override fun onProgress(message: String?) {
@@ -63,7 +63,7 @@ abstract class FFmpegBase(
                 }
 
                 override fun onFinish() {
-                    callback?.onFinish()
+                    callback?.onFinishProcessing()
                 }
             })
         } catch (e: Exception) {

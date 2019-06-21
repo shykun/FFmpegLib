@@ -13,42 +13,15 @@ import com.shykun.volodymyr.ffmpeglib.getOutputPath
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class ResizeVideoUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
+class ResizeVideoUseCase(
+    private val context: Context,
+    private val videoUri: Uri,
+    private val callback: FFMpegCallback,
+    private val outputSize: String
+) : BaseUseCase {
 
-    fun execute(outputSize: String) {
-        FFmpegVideoResizer(context, videoUri, object : FFMpegCallback {
-            override fun onStart() {
-                progressDialog.show()
-            }
-
-            override fun onProgress(progress: String) {
-                progressDialog.setMessage("progress : $progress")
-            }
-
-            override fun onSuccess(convertedFile: File, contentType: ContentType) {
-                Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-                val intent = Intent(Intent.ACTION_VIEW)
-                val apkURI = FileProvider.getUriForFile(
-                    context,
-                    context.applicationContext
-                        .packageName + ".provider", convertedFile
-                )
-                intent.setDataAndType(apkURI, "video/mp4")
-                context.startActivity(intent)
-            }
-
-            override fun onFailure(error: Exception) {
-                Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNotAvailable(error: Exception) {
-                Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onFinish() {
-                progressDialog.dismiss()
-            }
-        })
+    override fun execute() {
+        FFmpegVideoResizer(context, videoUri, callback)
             .setSize(outputSize)
             .setOutputPath(getOutputPath() + "video")
             .setOutputFileName("splitted_video" + System.currentTimeMillis() + ".mp4")

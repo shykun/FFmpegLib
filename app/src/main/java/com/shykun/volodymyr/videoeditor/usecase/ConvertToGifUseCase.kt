@@ -11,11 +11,15 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegVideoToGif
 import com.shykun.volodymyr.ffmpeglib.getOutputPath
 import java.io.File
 
-class ConvertToGifUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
+class ConvertToGifUseCase(
+    private val context: Context,
+    private val videoUri: Uri,
+    private val callback: FFMpegCallback
+) : BaseUseCase {
 
-    fun execute() {
-        FFmpegVideoToGif(context, videoUri, object : FFMpegCallback {
-            override fun onStart() {
+    override fun execute() {
+        FFmpegVideoToGif(context, videoUri, callback/*object : FFMpegCallback {
+            override fun onStartProcessing() {
                 progressDialog.show()
             }
 
@@ -43,10 +47,10 @@ class ConvertToGifUseCase(private val videoUri: Uri, context: Context) : BaseUse
                 Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onFinish() {
+            override fun onFinishProcessing() {
                 progressDialog.dismiss()
             }
-        })
+        }*/)
             .setFPS(30)
             .setScale(500)
             .setOutputPath(getOutputPath() + "video")

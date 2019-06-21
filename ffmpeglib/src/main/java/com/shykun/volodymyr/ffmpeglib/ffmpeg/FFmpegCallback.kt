@@ -4,7 +4,7 @@ import com.shykun.volodymyr.ffmpeglib.ContentType
 import java.io.File
 
 interface FFMpegCallback {
-    fun onStart()
+    fun onStartProcessing()
 
     fun onProgress(progress: String)
 
@@ -14,6 +14,6 @@ interface FFMpegCallback {
 
     fun onNotAvailable(error: Exception)
 
-    fun onFinish()
+    fun onFinishProcessing()
 
 }

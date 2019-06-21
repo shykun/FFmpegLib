@@ -11,42 +11,15 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.image.FFmpegVideoToImages
 import com.shykun.volodymyr.videoeditor.getProgressDialog
 import java.io.File
 
-class ExtractImagesUseCase(private val videoUri: Uri, context: Context) : BaseUseCase(context) {
+class ExtractImagesUseCase(
+    private val context: Context,
+    private val videoUri: Uri,
+    private val callback: FFMpegCallback,
+    private val interval: Double
+) : BaseUseCase {
 
-    fun execute(interval: Double) {
-        FFmpegVideoToImages(context, videoUri, object : FFMpegCallback {
-            override fun onStart() {
-                progressDialog.show()
-            }
-
-            override fun onProgress(progress: String) {
-                progressDialog.setMessage("progress : $progress")
-            }
-
-            override fun onSuccess(convertedFile: File, contentType: ContentType) {
-                Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-//                    val intent = Intent(Intent.ACTION_VIEW)
-//                    val apkURI = FileProvider.getUriForFile(
-//                        context,
-//                        context.applicationContext
-//                            .packageName + ".provider", convertedFile
-//                    )
-//                    intent.setDataAndType(apkURI, "*/*")
-//                    context.startActivity(intent)
-            }
-
-            override fun onFailure(error: Exception) {
-                Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNotAvailable(error: Exception) {
-                Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onFinish() {
-                progressDialog.dismiss()
-            }
-        })
+    override fun execute() {
+        FFmpegVideoToImages(context, videoUri, callback)
             .setInterval(interval)
             .setOutputPath(getOutputPath() + "images")
             .setOutputFileName("images")
