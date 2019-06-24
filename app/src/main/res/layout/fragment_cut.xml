@@ -4,40 +4,61 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tool="http://schemas.android.com/tools"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <VideoView
+    <RelativeLayout
+            android:id="@+id/rl_cutVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/cutStartTime"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/cutVideoView"
-            android:layout_width="match_parent"/>
+            app:layout_constraintBottom_toTopOf="@id/rangeSeekbar">
 
-    <TextView android:id="@+id/cutStartTime"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              tool:text="0:01"
-              app:layout_constraintRight_toLeftOf="@id/rangeSeekbar"
-              app:layout_constraintTop_toBottomOf="@id/cutVideoView"
-              app:layout_constraintLeft_toLeftOf="parent"
-              android:layout_marginStart="16dp"/>
+        <VideoView
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/cutVideoView"
+                android:layout_width="match_parent"/>
+
+    </RelativeLayout>
+
 
     <TextView
+            android:id="@+id/cutStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="0:01"
+            app:layout_constraintRight_toLeftOf="@id/rangeSeekbar"
+            app:layout_constraintTop_toBottomOf="@id/rl_cutVideoView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/canceButton"
+            android:layout_marginStart="16dp"/>
+
+    <TextView
+            app:layout_constraintBaseline_toBaselineOf="@id/cutStartTime"
             android:id="@+id/cutEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tool:text="1:23"
-            app:layout_constraintTop_toBottomOf="@id/cutVideoView"
+            app:layout_constraintTop_toBottomOf="@id/rl_cutVideoView"
             app:layout_constraintLeft_toRightOf="@id/rangeSeekbar"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/confirmButton"
             android:layout_marginEnd="16dp"/>
 
     <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-            app:layout_constraintTop_toBottomOf="@id/cutVideoView"
+            app:layout_constraintBaseline_toBaselineOf="@id/cutStartTime"
+            app:layout_constraintTop_toBottomOf="@id/rl_cutVideoView"
             app:layout_constraintBottom_toTopOf="@id/confirmButton"
             app:layout_constraintLeft_toRightOf="@id/cutStartTime"
             app:layout_constraintRight_toLeftOf="@id/cutEndTime"
+            app:bar_color="@android:color/darker_gray"
+            app:bar_highlight_color="@android:color/white"
+            app:left_thumb_color="@android:color/white"
+            app:right_thumb_color="@android:color/white"
+            app:left_thumb_color_pressed="@android:color/darker_gray"
+            app:right_thumb_color_pressed="@android:color/darker_gray"
+            app:layout_constraintCircleRadius="3dp"
+            app:corner_radius="2"
             android:id="@+id/rangeSeekbar"
             android:layout_width="0dp"
             app:layout_constraintHorizontal_weight="1"
@@ -59,7 +80,8 @@
             android:backgroundTint="@android:color/holo_red_dark"
             android:src="@drawable/ic_close"
             android:layout_marginBottom="16dp"
-    android:elevation="20dp"/>
+            android:layout_marginTop="16dp"
+            android:elevation="20dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             app:fabSize="normal"
@@ -75,7 +97,8 @@
             android:layout_toEndOf="@id/canceButton"
             android:backgroundTint="@android:color/holo_green_dark"
             android:src="@drawable/ic_done"
-    android:layout_marginBottom="16dp"
-    app:elevation="20dp"/>
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            app:elevation="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
