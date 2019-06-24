@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.FFmpegLoadingFragmemt">
+
+    <RelativeLayout
+            android:id="@+id/ffmpegLoadingProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+        <ProgressBar
+                android:id="@+id/ffmpegLoadingProgressBar"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/ffmpegLoadingFailure"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+        <TextView
+                android:textSize="16sp"
+                android:text="@string/ffmpeg_load_fail"
+                android:layout_centerInParent="true"
+                android:id="@+id/ffmpegLoadingFailureMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:text="@string/try_again"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/ffmpegLoadingFailureMessage"
+                android:id="@+id/ffmpegLoadingTryAgainButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/ffmpegNotSupported"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+        <ImageView
+                android:id="@+id/fffmpegNotSupportedIcon"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_info_24dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+        <TextView
+                android:gravity="center_horizontal"
+                android:textSize="16sp"
+                android:text="@string/not_supported_device_message"
+                android:id="@+id/ffmpegNotSupportedMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fffmpegNotSupportedIcon"
+                android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
