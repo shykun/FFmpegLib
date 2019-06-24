@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
+import com.shykun.volodymyr.videoeditor.getProgressDialog
 import com.shykun.volodymyr.videoeditor.usecase.CutUseCase
 import java.io.File
 
