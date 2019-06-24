@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import com.shykun.volodymyr.videoeditor.BackButtonListener
-import com.shykun.volodymyr.videoeditor.MainActivity
-import com.shykun.volodymyr.videoeditor.MainViewModel
-import com.shykun.volodymyr.videoeditor.R
+import com.shykun.volodymyr.videoeditor.*
 import kotlinx.android.synthetic.main.fragment_cut.*
 import javax.inject.Inject
 
@@ -86,14 +83,8 @@ abstract class RangeSeekBarFragment : Fragment(), BackButtonListener {
         updateHandler = Handler()
         updateRunnable = object : Runnable {
             override fun run() {
-                val startMinute = curStartValue / 60000
-                val startSecond = (curStartValue % 60000) / 1000
-
-                val endMinute = curEndValue / 60000
-                val endSecond = (curEndValue % 60000) / 1000
-
-                cutStartTime.text = "$startMinute:$startSecond"
-                cutEndTime.text = "$endMinute:$endSecond"
+                cutStartTime.text = getFormattedTime(curStartValue)
+                cutEndTime.text = getFormattedTime(curEndValue)
 
                 if (cutVideoView.currentPosition >= curEndValue)
                     cutVideoView.seekTo(curStartValue)
@@ -111,11 +102,8 @@ abstract class RangeSeekBarFragment : Fragment(), BackButtonListener {
 
             curEndValue = cutVideoView.duration
 
-            val minutes = cutVideoView.duration / 60000
-            val seconds = (cutVideoView.duration % 60000) / 1000
-
-            cutStartTime.text = "0:0"
-            cutEndTime.text = "$minutes:$seconds"
+            cutStartTime.text = getFormattedTime(0)
+            cutEndTime.text = getFormattedTime(curEndValue)
 
             it.setOnSeekCompleteListener {
                 if (!cutVideoView.isPlaying)
