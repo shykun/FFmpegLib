@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import kotlinx.android.synthetic.main.fragment_action.*
 
-fun getProgressDialog(context: Context) = AlertDialog.Builder(context)
+fun getProgressDialog(context: Context) : AlertDialog = AlertDialog.Builder(context)
     .setView(R.layout.dialog_progress)
     .setTitle(context.getString(R.string.title_progress_dialog))
     .setCancelable(false)
