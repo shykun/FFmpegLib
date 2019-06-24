@@ -30,8 +30,8 @@ class SpecifyActionDialog : DialogFragment() {
         return AlertDialog.Builder(activity!!)
             .setTitle(title)
             .setView(view)
-            .setPositiveButton("Confirm") { _, _ -> specifyDialogClickListener.onConfirmClicked(input.text.toString()) }
-            .setNegativeButton("Cancel") { _, _ ->  }
+            .setPositiveButton(getString(R.string.confirm)) { _, _ -> specifyDialogClickListener.onConfirmClicked(input.text.toString()) }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->  }
             .create()
 
     }

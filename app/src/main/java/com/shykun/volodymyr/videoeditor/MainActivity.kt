@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             .get(MainViewModel::class.java)
 
 
-        subscribeVideoUriLiveDatat()
+        subscribeVideoUriLiveData()
     }
 
     override fun onResume() {
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    private fun subscribeVideoUriLiveDatat() {
+    private fun subscribeVideoUriLiveData() {
         viewModel.selectedVideoUri.observe(this, Observer { uri ->
             ffmpeg = FFmpegExecutor(this, uri)
                 .loadBinary(object : LoadBinaryResponseHandler() {
@@ -85,14 +85,4 @@ class MainActivity : AppCompatActivity() {
                 })
         })
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-//    override fun onBackPressed() {
-//        val currentFragment = supportFragmentManager.findFragmentById(R.id.mainFragmentContainer)
-//        if (currentFragment is BackButtonListener && !currentFragment.onBackClicked())
-//            finish()
-//    }
 }

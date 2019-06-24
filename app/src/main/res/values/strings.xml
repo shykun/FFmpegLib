@@ -24,4 +24,7 @@
     <string name="set_output_resolution">Set output resolution</string>
     <string name="interval">Interval</string>
     <string name="resolution">Resolution</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>
