@@ -34,4 +34,5 @@
     <string name="ffmpeg_load_finish">FFMpeg Stopped</string>
     <string name="not_supported_device_message">Unfortunatelly, your device is not supported :(</string>
     <string name="try_again">Try again</string>
+    <string name="action_add_text">Add text</string>
 </resources>

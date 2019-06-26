@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -18,7 +17,7 @@
             android:padding="10dp"
             android:text="Done"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
     <EditText
             android:id="@+id/addTextInput"
@@ -29,7 +28,7 @@
             android:background="@null"
             android:gravity="center"
             android:inputType="textMultiLine"
-            android:textSize="40sp" />
+            android:textSize="40sp"/>
 
     <RelativeLayout
             android:id="@+id/addTextColorPickerContainer"
@@ -37,14 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addTextColorPickerRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:background="@android:color/black"
-                tools:listitem="@layout/color_picker_item_list" />
+                tools:background="@android:color/black"/>
 
     </RelativeLayout>
 

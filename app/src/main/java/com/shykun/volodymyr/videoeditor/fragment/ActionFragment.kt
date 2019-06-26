@@ -86,7 +86,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
         (activity as MainActivity).component?.inject(this)
 
         mainViewModel = ViewModelProviders.of(activity!!)
-                .get(MainViewModel::class.java)
+            .get(MainViewModel::class.java)
         actionAdapter = ActionAdapter(getActions(context!!))
 
         progressDialog = getProgressDialog(context!!)
@@ -168,7 +168,6 @@ class ActionFragment : Fragment(), FFMpegCallback {
     @SuppressLint("CheckResult")
     private fun setupActionClickListener() {
         actionAdapter.clickObservable.subscribe {
-
             when (it.name) {
                 getString(R.string.action_cut) -> performCutAction()
                 getString(R.string.action_slow_motion) -> performSlowMotionAction()
@@ -181,6 +180,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
                 getString(R.string.action_convert_to_gif) -> performConvertToGifUseCase()
                 getString(R.string.action_slow_resize) -> performSlowResizeAction()
                 getString(R.string.action_fast_resize) -> performFastResizeAction()
+                getString(R.string.action_add_text) -> performAddTextAction()
             }
         }
     }
@@ -196,25 +196,25 @@ class ActionFragment : Fragment(), FFMpegCallback {
     private fun performCutAction() = navController.navigate(R.id.cutFragment)
 
     private fun performSlowMotionAction() =
-            SlowMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+        SlowMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     private fun performFastMotionAction() =
-            FastMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+        FastMotionOriginalUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     //    private fun performExtractImagesAction() = ExtractImagesUseCase(mainViewModel.selectedVideoUri.value!!, context!!).execute(0.1)
     private fun performExtractImagesAction() {
         val dialog = SpecifyActionDialog.newInstance(
-                getString(R.string.set_extract_interval), getString(
+            getString(R.string.set_extract_interval), getString(
                 R.string.interval
-        )
+            )
         )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 ExtractImagesUseCase(
-                        context!!,
-                        mainViewModel.selectedVideoUri.value!!,
-                        this@ActionFragment,
-                        input.toDouble()
+                    context!!,
+                    mainViewModel.selectedVideoUri.value!!,
+                    this@ActionFragment,
+                    input.toDouble()
                 ).execute()
 
             }
@@ -223,24 +223,24 @@ class ActionFragment : Fragment(), FFMpegCallback {
     }
 
     private fun performExtractAudioAction() =
-            ExtractAudioUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+        ExtractAudioUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     private fun performReverseUseCase() =
-            ReverseUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+        ReverseUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
 
     private fun performSplitVideoUseCase() {
         val dialog = SpecifyActionDialog.newInstance(
-                getString(R.string.set_split_interval), getString(
+            getString(R.string.set_split_interval), getString(
                 R.string.interval
-        )
+            )
         )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 SplitVideoUseCase(
-                        context!!,
-                        mainViewModel.selectedVideoUri.value!!,
-                        this@ActionFragment,
-                        input.toInt()
+                    context!!,
+                    mainViewModel.selectedVideoUri.value!!,
+                    this@ActionFragment,
+                    input.toInt()
                 ).execute()
             }
         }
@@ -249,18 +249,18 @@ class ActionFragment : Fragment(), FFMpegCallback {
 
     private fun performResizeVideoUseCase() {
         val dialog = SpecifyActionDialog.newInstance(
-                getString(R.string.set_output_resolution), getString(
+            getString(R.string.set_output_resolution), getString(
                 R.string.resolution
-        )
+            )
         )
         dialog.specifyDialogClickListener = object : SpecifyDialogClickListener {
             override fun onConfirmClicked(input: String) {
                 //TODO remove hardcoded value
                 ResizeVideoUseCase(
-                        context!!,
-                        mainViewModel.selectedVideoUri.value!!,
-                        this@ActionFragment,
-                        "320:480"
+                    context!!,
+                    mainViewModel.selectedVideoUri.value!!,
+                    this@ActionFragment,
+                    "320:480"
                 ).execute()
             }
         }
@@ -268,15 +268,19 @@ class ActionFragment : Fragment(), FFMpegCallback {
     }
 
     private fun performConvertToGifUseCase() =
-            ConvertToGifUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+        ConvertToGifUseCase(context!!, mainViewModel.selectedVideoUri.value!!, this).execute()
+
+    private fun performAddTextAction() {
+        navController.navigate(R.id.addTextFragment)
+    }
 
     private fun openResult(convertedFile: File, type: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         val apkURI = context?.let {
             FileProvider.getUriForFile(
-                    it,
-                    it.applicationContext
-                            .packageName + ".provider", convertedFile
+                it,
+                it.applicationContext
+                    .packageName + ".provider", convertedFile
             )
         }
         intent.setDataAndType(apkURI, type)

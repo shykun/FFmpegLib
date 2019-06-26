@@ -22,7 +22,8 @@ fun getActions(context: Context): Array<Action> {
         Action(context.getString(R.string.action_reverse_video), R.drawable.ic_reverse_24dp),
         Action(context.getString(R.string.action_split_video), R.drawable.ic_split_video_24dp),
         Action(context.getString(R.string.action_resize), R.drawable.ic_resize_24dp),
-        Action(context.getString(R.string.action_convert_to_gif), R.drawable.ic_gif_24dp)
+        Action(context.getString(R.string.action_convert_to_gif), R.drawable.ic_gif_24dp),
+        Action(context.getString(R.string.action_add_text), R.drawable.ic_text_24dp)
     )
 }
 

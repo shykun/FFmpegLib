@@ -4,23 +4,23 @@
             android:id="@+id/main_graph"
             app:startDestination="@id/ffmpegLoadingFragment">
 
-    <fragment
-            android:id="@+id/uploadFragment"
-            android:name="com.shykun.volodymyr.videoeditor.fragment.UploadFragment"
-            android:label="UploadFragment"/>
+    <fragment android:id="@+id/uploadFragment"
+              android:name="com.shykun.volodymyr.videoeditor.fragment.UploadFragment"
+              android:label="UploadFragment"/>
 
-    <fragment
-            android:id="@+id/actionFragment"
-            android:name="com.shykun.volodymyr.videoeditor.fragment.ActionFragment"
-            android:label="ActionFragment"/>
+    <fragment android:id="@+id/actionFragment"
+              android:name="com.shykun.volodymyr.videoeditor.fragment.ActionFragment"
+              android:label="ActionFragment"/>
 
-    <fragment
-            android:id="@+id/cutFragment"
-            android:name="com.shykun.volodymyr.videoeditor.fragment.CutFragment"
-            android:label="CutFragment"/>
+    <fragment android:id="@+id/cutFragment"
+              android:name="com.shykun.volodymyr.videoeditor.fragment.CutFragment"
+              android:label="CutFragment"/>
 
-    <fragment
-            android:id="@+id/ffmpegLoadingFragment"
-            android:name="com.shykun.volodymyr.videoeditor.fragment.FFmpegLoadingFragmemt"
-            android:label="ffmpegLoadingFragment"/>
+    <fragment android:id="@+id/ffmpegLoadingFragment"
+              android:name="com.shykun.volodymyr.videoeditor.fragment.FFmpegLoadingFragmemt"
+              android:label="ffmpegLoadingFragment"/>
+
+    <fragment android:id="@+id/addTextFragment"
+              android:name="com.shykun.volodymyr.videoeditor.fragment.AddTextFragment"
+              android:label="AddTextFragment"/>
 </navigation>
