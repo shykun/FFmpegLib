@@ -2,14 +2,14 @@ package com.shykun.volodymyr.videoeditor.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.shykun.volodymyr.videoeditor.MainViewModel
-import com.shykun.volodymyr.videoeditor.R
+import com.shykun.volodymyr.videoeditor.*
 import com.shykun.volodymyr.videoeditor.dialog.AddTextDialog
 import com.shykun.volodymyr.videoeditor.dialog.OnTextEditorListener
 import kotlinx.android.synthetic.main.fragment_add_text.*
@@ -17,9 +17,11 @@ import kotlinx.android.synthetic.main.view_added_text.view.*
 
 const val ADD_TEXT_DIALOG_TAG = "add_text_dialog"
 
-class AddTextFragment : Fragment(), OnTextEditorListener {
+class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, OnScaleGestureListener, OnRotationGestureListener {
 
     lateinit var mainViewModel: MainViewModel
+    lateinit var scaleGestureDetector: ScaleGestureDetector
+    lateinit var rotationGestureDetector: RotationGestureDetector
 
     var selectedView: View? = null
 
@@ -28,6 +30,8 @@ class AddTextFragment : Fragment(), OnTextEditorListener {
 
         mainViewModel = ViewModelProviders.of(activity!!)
             .get(MainViewModel::class.java)
+        scaleGestureDetector = ScaleGestureDetector(this)
+        rotationGestureDetector = RotationGestureDetector(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,6 +53,7 @@ class AddTextFragment : Fragment(), OnTextEditorListener {
     }
 
     private fun setOnRootClickListener() {
+        addTextRoot.setOnTouchListener(this)
         addTextRoot.setOnClickListener {
             hideFrameOfSelectedView()
         }
@@ -92,6 +97,25 @@ class AddTextFragment : Fragment(), OnTextEditorListener {
            frmBorder.setBackgroundResource(0)
             imgPhotoEditorClose.visibility = View.GONE
         }
+        selectedView = null
     }
 
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+
+        if (event.actionMasked == MotionEvent.ACTION_UP)
+            v.performClick()
+
+        scaleGestureDetector.onTouchEvent(event)
+        rotationGestureDetector.onTouchEvent(event)
+
+        return true
+    }
+
+    override fun onScaled(ratio: Float) {
+        selectedView?.tvPhotoEditorText?.textSize = ratio + 10
+    }
+
+    override fun onRotated(angle: Float) {
+        selectedView?.rotation = angle
+    }
 }
