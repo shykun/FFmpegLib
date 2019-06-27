@@ -1,12 +1,12 @@
 package com.shykun.volodymyr.videoeditor.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.shykun.volodymyr.videoeditor.*
@@ -22,6 +22,9 @@ class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, 
     lateinit var mainViewModel: MainViewModel
     lateinit var scaleGestureDetector: ScaleGestureDetector
     lateinit var rotationGestureDetector: RotationGestureDetector
+
+    var _xDelta = 0
+    var _yDelta = 0
 
     var selectedView: View? = null
 
@@ -42,7 +45,8 @@ class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, 
         super.onViewCreated(view, savedInstanceState)
 
         setOnAddTextClickListener()
-        setOnRootClickListener()
+        setRootClickListener()
+        setRootTouchListener()
         setupVideo()
     }
 
@@ -52,10 +56,21 @@ class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, 
         addTextDialog.show(childFragmentManager, ADD_TEXT_DIALOG_TAG)
     }
 
-    private fun setOnRootClickListener() {
-        addTextRoot.setOnTouchListener(this)
+    private fun setRootClickListener() {
         addTextRoot.setOnClickListener {
             hideFrameOfSelectedView()
+        }
+    }
+
+    private fun setRootTouchListener() {
+        addTextRoot.setOnTouchListener{ view, event ->
+            if (event.actionMasked == MotionEvent.ACTION_UP)
+                view.performClick()
+
+            scaleGestureDetector.onTouchEvent(event)
+            rotationGestureDetector.onTouchEvent(event)
+
+            true
         }
     }
 
@@ -70,27 +85,32 @@ class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, 
 
     override fun onDone(inputText: String, colorCode: Int) {
         val view = LayoutInflater.from(context).inflate(R.layout.view_added_text, addTextRoot, false)
-        view.tvPhotoEditorText.apply {
-            text = inputText
-            setTextColor(colorCode)
-        }
 
-        val layoutParams = view.layoutParams as RelativeLayout.LayoutParams
-        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        view.apply {
+            this.tvPhotoEditorText.apply {
+                text = inputText
+                setTextColor(colorCode)
+            }
 
-        addTextRoot.addView(view, layoutParams)
+            setOnClickListener {
+                hideFrameOfSelectedView()
+                selectedView = it
+                it.frmBorder.setBackgroundResource(R.drawable.rounded_border_tv)
+                it.imgPhotoEditorClose.visibility = View.VISIBLE
+            }
 
-        view.setOnClickListener {
-            selectedView = it
-            it.frmBorder.setBackgroundResource(R.drawable.rounded_border_tv)
-            it.imgPhotoEditorClose.visibility = View.VISIBLE
-        }
+            imgPhotoEditorClose.setOnClickListener {
+                addTextRoot.removeView(view)
+                selectedView = null
+            }
 
-        view.imgPhotoEditorClose.setOnClickListener {
-            addTextRoot.removeView(view)
-            selectedView = null
+            setOnTouchListener(this@AddTextFragment)
+
+            addTextRoot.addView(this)
         }
     }
+
+
 
     private fun hideFrameOfSelectedView() {
         selectedView?.apply {
@@ -101,13 +121,34 @@ class AddTextFragment : Fragment(), OnTextEditorListener, View.OnTouchListener, 
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
+        val X = event.rawX.toInt()
+        val Y = event.rawY.toInt()
+        when (event.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                val lParams = v.layoutParams as RelativeLayout.LayoutParams
+                _xDelta = X - lParams.leftMargin
+                _yDelta = Y - lParams.topMargin
+                Log.d("ACTION_DOWN", lParams.leftMargin.toString() + " : " + lParams.topMargin)
+            }
+            MotionEvent.ACTION_UP -> {
+                v.performClick()
+            }
+            MotionEvent.ACTION_POINTER_DOWN -> {
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val layoutParams = v.layoutParams as RelativeLayout.LayoutParams
 
-        if (event.actionMasked == MotionEvent.ACTION_UP)
-            v.performClick()
 
-        scaleGestureDetector.onTouchEvent(event)
-        rotationGestureDetector.onTouchEvent(event)
-
+                layoutParams.leftMargin = X - _xDelta
+                layoutParams.topMargin = Y - _yDelta
+                layoutParams.rightMargin = -250
+                layoutParams.bottomMargin = -250
+                v.layoutParams = layoutParams
+            }
+        }
+        addTextRoot.invalidate()
         return true
     }
 
