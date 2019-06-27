@@ -19,7 +19,7 @@ const val ADD_TEXT_DIALOG_TEXT_KEY = "add_text_dialog_text_key"
 const val ADD_TEXT_DIALOG_TEXT_COLOR_KEY = "add_text_dialog_text_color_key"
 
 interface OnTextEditorListener {
-    fun onDone(text: String, colorCode: Int)
+    fun onDone(inputText: String, colorCode: Int)
 }
 
 class AddTextDialog : DialogFragment(), OnColorPickerClickListener {
