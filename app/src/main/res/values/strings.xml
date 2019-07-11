@@ -35,4 +35,8 @@
     <string name="not_supported_device_message">Unfortunatelly, your device is not supported :(</string>
     <string name="try_again">Try again</string>
     <string name="action_add_text">Add text</string>
+    <string name="add_text_save_button">Save</string>
+    <string name="success">SUCCESS</string>
+    <string name="failure">FAILURE</string>
+    <string name="not_available">NOT AVAILABLE</string>
 </resources>

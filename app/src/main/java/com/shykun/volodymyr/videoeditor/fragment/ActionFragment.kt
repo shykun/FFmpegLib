@@ -3,7 +3,6 @@ package com.shykun.volodymyr.videoeditor.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,22 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.shykun.volodymyr.ffmpeglib.ContentType
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
-
 import com.shykun.volodymyr.videoeditor.*
 import com.shykun.volodymyr.videoeditor.adapter.ActionAdapter
-
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyActionDialog
 import com.shykun.volodymyr.videoeditor.dialog.SpecifyDialogClickListener
 import com.shykun.volodymyr.videoeditor.usecase.*
-
 import kotlinx.android.synthetic.main.fragment_action.*
 import java.io.File
 import javax.inject.Inject
@@ -45,15 +39,15 @@ class ActionFragment : Fragment(), FFMpegCallback {
     }
 
     override fun onSuccess(convertedFile: File, contentType: ContentType) {
-        Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show()
 
         when (contentType) {
             ContentType.VIDEO,
             ContentType.MULTIPLE_VIDEO -> {
-                openResult(convertedFile, "video/mp4")
+                openResult(context, convertedFile, "video/mp4")
             }
             ContentType.AUDIO -> {
-                openResult(convertedFile, "audio/mp3")
+                openResult(context, convertedFile, "audio/mp3")
             }
             else -> {
             }
@@ -61,11 +55,11 @@ class ActionFragment : Fragment(), FFMpegCallback {
     }
 
     override fun onFailure(error: Exception) {
-        Toast.makeText(context, "FAILURE", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.failure), Toast.LENGTH_SHORT).show()
     }
 
     override fun onNotAvailable(error: Exception) {
-        Toast.makeText(context, "NOT AVAILABLE", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.not_available), Toast.LENGTH_SHORT).show()
     }
 
     override fun onFinishProcessing() {
@@ -272,18 +266,5 @@ class ActionFragment : Fragment(), FFMpegCallback {
 
     private fun performAddTextAction() {
         navController.navigate(R.id.addTextFragment)
-    }
-
-    private fun openResult(convertedFile: File, type: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        val apkURI = context?.let {
-            FileProvider.getUriForFile(
-                it,
-                it.applicationContext
-                    .packageName + ".provider", convertedFile
-            )
-        }
-        intent.setDataAndType(apkURI, type)
-        context?.startActivity(intent)
     }
 }

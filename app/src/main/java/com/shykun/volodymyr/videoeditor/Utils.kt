@@ -2,9 +2,11 @@ package com.shykun.volodymyr.videoeditor
 
 import android.app.AlertDialog
 import android.content.Context
-import kotlinx.android.synthetic.main.fragment_action.*
+import android.content.Intent
+import androidx.core.content.FileProvider
+import java.io.File
 
-fun getProgressDialog(context: Context) : AlertDialog = AlertDialog.Builder(context)
+fun getProgressDialog(context: Context): AlertDialog = AlertDialog.Builder(context)
     .setView(R.layout.dialog_progress)
     .setTitle(context.getString(R.string.title_progress_dialog))
     .setCancelable(false)
@@ -26,6 +28,21 @@ fun getActions(context: Context): Array<Action> {
         Action(context.getString(R.string.action_add_text), R.drawable.ic_text_24dp)
     )
 }
+
+
+fun openResult(context: Context?, convertedFile: File, type: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    val apkURI = context?.let {
+        FileProvider.getUriForFile(
+            it,
+            it.applicationContext.packageName + ".provider",
+            convertedFile
+        )
+    }
+    intent.setDataAndType(apkURI, type)
+    context?.startActivity(intent)
+}
+
 
 fun getFormattedTime(time: Int): String {
     val minutes = time / 60000

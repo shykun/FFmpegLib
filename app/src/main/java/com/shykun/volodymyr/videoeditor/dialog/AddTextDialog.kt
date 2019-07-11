@@ -15,6 +15,7 @@ import com.shykun.volodymyr.videoeditor.adapter.ColorPickerAdapter
 import com.shykun.volodymyr.videoeditor.adapter.OnColorPickerClickListener
 import kotlinx.android.synthetic.main.dialog_add_text.*
 
+
 const val ADD_TEXT_DIALOG_TEXT_KEY = "add_text_dialog_text_key"
 const val ADD_TEXT_DIALOG_TEXT_COLOR_KEY = "add_text_dialog_text_color_key"
 
@@ -91,7 +92,7 @@ class AddTextDialog : DialogFragment(), OnColorPickerClickListener {
     }
 
     companion object {
-        fun newInstance(text: String = "", colorCode: Int = R.color.green_color_picker): AddTextDialog {
+        fun newInstance(text: String = "", colorCode: Int = R.color.white_color_picker): AddTextDialog {
             val args = Bundle()
             val dialog = AddTextDialog()
 

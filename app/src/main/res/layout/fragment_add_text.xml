@@ -20,4 +20,14 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
             android:src="@drawable/ic_add_black_24dp"/>
+
+    <TextView
+            android:id="@+id/addTextSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_text_save_button"
+            android:textSize="20sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"/>
 </RelativeLayout>
