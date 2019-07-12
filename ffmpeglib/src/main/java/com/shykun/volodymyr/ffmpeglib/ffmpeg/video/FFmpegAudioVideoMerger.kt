@@ -11,6 +11,8 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
+//Megre audio and video
+
 class FFmpegAudioVideoMerger (context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var audioUri: Uri? = null

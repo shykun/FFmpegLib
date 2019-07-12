@@ -9,6 +9,8 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 
+//Get images from video
+
 class FFmpegVideoToImages(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     override fun getCommand(): Array<String?> {
         val inputLocation = getPath(context, videoUri)

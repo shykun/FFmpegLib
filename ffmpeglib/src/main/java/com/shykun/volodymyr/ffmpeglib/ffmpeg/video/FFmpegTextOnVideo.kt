@@ -8,6 +8,8 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 
+//Add text to video
+
 class FFmpegTextOnVideo(context: Context, videoUri: Uri, callback: FFMpegCallback) :
     FFmpegBase(context, videoUri, callback) {
 

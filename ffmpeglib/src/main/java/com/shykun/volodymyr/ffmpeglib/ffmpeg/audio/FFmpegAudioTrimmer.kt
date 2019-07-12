@@ -11,7 +11,9 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegAudioTrimmer(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
+//Trim audio
+
+class FFmpegAudioTrimmer(context: Context, callback: FFMpegCallback) : FFmpegBase(context, null, callback) {
     private var audioUri: Uri? = null
     private var startTime = 0
     private var endTime = 0

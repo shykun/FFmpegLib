@@ -12,6 +12,8 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
+//Estract audio from video
+
 class FFmpegAudioExtractor (context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     override fun getContentType(): ContentType = ContentType.AUDIO
 

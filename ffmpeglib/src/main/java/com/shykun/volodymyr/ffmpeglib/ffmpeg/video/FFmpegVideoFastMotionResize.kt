@@ -5,6 +5,8 @@ import android.net.Uri
 import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFMpegCallback
 import com.shykun.volodymyr.ffmpeglib.getPath
 
+//Get fastmotion video with smaller resolution
+
 class FFmpegVideoFastMotionResize(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegVideoFastMotionOriginal(context, videoUri, callback) {
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()

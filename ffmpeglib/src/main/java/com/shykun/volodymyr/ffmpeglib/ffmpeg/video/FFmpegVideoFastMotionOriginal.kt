@@ -12,6 +12,8 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
+//Get fastmotion video with original resolution
+
 open class FFmpegVideoFastMotionOriginal(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     var coefficient = 0.5

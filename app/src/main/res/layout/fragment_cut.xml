@@ -23,6 +23,7 @@
 
 
     <TextView
+            app:layout_constraintBaseline_toBaselineOf="@id/rangeSeekbar"
             android:id="@+id/cutStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
             android:layout_marginStart="16dp"/>
 
     <TextView
-            app:layout_constraintBaseline_toBaselineOf="@id/cutStartTime"
+            app:layout_constraintBaseline_toBaselineOf="@id/rangeSeekbar"
             android:id="@+id/cutEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +47,6 @@
             android:layout_marginEnd="16dp"/>
 
     <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-            app:layout_constraintBaseline_toBaselineOf="@id/cutStartTime"
             app:layout_constraintTop_toBottomOf="@id/rl_cutVideoView"
             app:layout_constraintBottom_toTopOf="@id/confirmButton"
             app:layout_constraintLeft_toRightOf="@id/cutStartTime"

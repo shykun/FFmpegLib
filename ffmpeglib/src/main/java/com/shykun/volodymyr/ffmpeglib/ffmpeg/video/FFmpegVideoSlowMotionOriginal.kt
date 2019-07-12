@@ -12,6 +12,8 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
+//Get slowmotion video with original resolution
+
 open class FFmpegVideoSlowMotionOriginal(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     var coefficient = 2.0

@@ -13,6 +13,8 @@ import com.shykun.volodymyr.ffmpeglib.getPath
 import com.shykun.volodymyr.ffmpeglib.refreshGallery
 import java.io.IOException
 
+//Trim video
+
 class FFmpegVideoTrimmer(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var startTime = 0

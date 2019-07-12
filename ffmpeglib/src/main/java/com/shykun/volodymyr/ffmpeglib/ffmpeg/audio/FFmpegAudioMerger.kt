@@ -11,7 +11,9 @@ import com.shykun.volodymyr.ffmpeglib.ffmpeg.FFmpegBase
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
-class FFmpegAudioMerger(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
+//Merge two audio
+
+class FFmpegAudioMerger(context: Context, callback: FFMpegCallback) : FFmpegBase(context, null, callback) {
 
     private var audio1Uri: Uri? = null
     private var audio2Uri: Uri? = null

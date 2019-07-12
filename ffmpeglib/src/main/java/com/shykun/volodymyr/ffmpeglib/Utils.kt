@@ -1,8 +1,6 @@
 package com.shykun.volodymyr.ffmpeglib
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Environment
 import java.io.File
 import java.io.FileNotFoundException
@@ -45,46 +43,6 @@ fun getConvertedFile(folder: String, fileName: String): File {
         f.mkdirs()
 
     return File(f.path + File.separator + fileName)
-}
-
-fun refreshGallery(path: String, context: Context) {
-
-    val file = File(path)
-    try {
-        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-        val contentUri = Uri.fromFile(file)
-        mediaScanIntent.data = contentUri
-        context.sendBroadcast(mediaScanIntent)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-
-}
-
-fun milliSecondsToTimer(milliseconds: Long): String {
-    var finalTimerString = ""
-    var secondsString = ""
-
-    // Convert total duration into time
-    val hours = (milliseconds / (1000 * 60 * 60)).toInt()
-    val minutes = (milliseconds % (1000 * 60 * 60)).toInt() / (1000 * 60)
-    val seconds = (milliseconds % (1000 * 60 * 60) % (1000 * 60) / 1000).toInt()
-    // Add hours if there
-    if (hours > 0) {
-        finalTimerString = hours.toString() + ":"
-    }
-
-    // Prepending 0 to seconds if it is one digit
-    if (seconds < 10) {
-        secondsString = "0" + seconds
-    } else {
-        secondsString = "" + seconds
-    }
-
-    finalTimerString = finalTimerString + minutes + ":" + secondsString
-
-    // return timer string
-    return finalTimerString
 }
 
 

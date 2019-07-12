@@ -12,14 +12,14 @@ import java.io.IOException
 
 abstract class FFmpegBase(
     protected val context: Context,
-    protected val videoUri: Uri,
+    protected val videoUri: Uri?,
     protected val callback: FFMpegCallback?
 ) {
     protected var outputPath = ""
     protected var outputFileName = ""
 
 
-    abstract fun getCommand() : Array<String?>
+    abstract fun getCommand(): Array<String?>
 
     abstract fun getContentType(): ContentType
 
@@ -37,7 +37,7 @@ abstract class FFmpegBase(
         return getConvertedFile(outputPath, outputFileName)
     }
 
-    fun execute(){
+    fun execute() {
         val cmd = getCommand()
         val outputLocation = getOutputLocation()
 

@@ -13,6 +13,8 @@ import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.File
 import java.io.IOException
 
+//Split video on parts
+
 class FFmpegVideoSplitter(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
 
     private var segmentTime = 0

@@ -12,6 +12,8 @@ import com.shykun.volodymyr.ffmpeglib.getConvertedFile
 import com.shykun.volodymyr.ffmpeglib.getPath
 import java.io.IOException
 
+//Reverse video
+
 class FFmpegVideoReverser(context: Context, videoUri: Uri, callback: FFMpegCallback) : FFmpegBase(context, videoUri, callback) {
     override fun getCommand(): Array<String?> {
         val outputLocation = getOutputLocation()

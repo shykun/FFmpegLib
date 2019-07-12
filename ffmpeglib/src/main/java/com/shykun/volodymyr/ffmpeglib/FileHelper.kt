@@ -7,60 +7,10 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import java.io.File
 
-
-fun getVideoSavePath(filePrefix: String): String {
-    val moviesDir = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_MOVIES
-    )
-    val fileExtn = ".mp4"
-    var dest = File(moviesDir, filePrefix + fileExtn)
-    var fileNo = 0
-    while (dest.exists()) {
-        fileNo++
-        dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-    }
-
-    return dest.absolutePath
-}
-
-fun getAudioSavePath(filePrefix: String): String {
-    val moviesDir = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_MUSIC
-    )
-
-    val fileExtn = ".mp3"
-    var dest = File(moviesDir, filePrefix + fileExtn)
-
-    var fileNo = 0
-    while (dest.exists()) {
-        fileNo++
-        dest = File(moviesDir, filePrefix + fileNo + fileExtn)
-    }
-    return dest.absolutePath
-}
-
-fun getImagesSaveDir(dirPrefix: String): File {
-    val moviesDir = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES
-    )
-
-    val filePrefix = "extract_picture"
-    val fileExtn = ".jpg"
-
-    var dir = File(moviesDir, "VideoEditor")
-    var fileNo = 0
-    while (dir.exists()) {
-        fileNo++
-        dir = File(moviesDir, "VideoEditor$fileNo")
-
-    }
-    return dir
-}
-
-fun getPath(context: Context, uri: Uri): String? {
-
+fun getPath(context: Context, uri: Uri?): String? {
+    if (uri == null)
+        return ""
     // DocumentProvider
     if (DocumentsContract.isDocumentUri(context, uri)) {
         // ExternalStorageProvider
@@ -157,19 +107,4 @@ private fun isDownloadsDocument(uri: Uri): Boolean {
  */
 private fun isMediaDocument(uri: Uri): Boolean {
     return "com.android.providers.media.documents" == uri.authority
-}
-
-fun deleteDir(dir: File): Boolean {
-    if (dir.isDirectory) {
-        val children = dir.list()
-        if (children != null) {
-            for (i in children.indices) {
-                val success = deleteDir(File(dir, children[i]))
-                if (!success) {
-                    return false
-                }
-            }
-        }
-    }
-    return dir.delete()
 }

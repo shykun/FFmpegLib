@@ -25,8 +25,7 @@ import kotlinx.android.synthetic.main.fragment_action.*
 import java.io.File
 import javax.inject.Inject
 
-const val ACTION_FRAGMENT_KEY = "action_fragment_key"
-
+const val SPECIFY_ACTIOD_DIALOG_TAG = "specify_action_dialiog_key"
 class ActionFragment : Fragment(), FFMpegCallback {
     private lateinit var progressDialog: AlertDialog
 
@@ -213,7 +212,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
 
             }
         }
-        dialog.show(childFragmentManager, "tag")
+        dialog.show(childFragmentManager, SPECIFY_ACTIOD_DIALOG_TAG)
     }
 
     private fun performExtractAudioAction() =
@@ -238,7 +237,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
                 ).execute()
             }
         }
-        dialog.show(childFragmentManager, "tag")
+        dialog.show(childFragmentManager, SPECIFY_ACTIOD_DIALOG_TAG)
     }
 
     private fun performResizeVideoUseCase() {
@@ -258,7 +257,7 @@ class ActionFragment : Fragment(), FFMpegCallback {
                 ).execute()
             }
         }
-        dialog.show(childFragmentManager, "tag")
+        dialog.show(childFragmentManager, SPECIFY_ACTIOD_DIALOG_TAG)
     }
 
     private fun performConvertToGifUseCase() =
